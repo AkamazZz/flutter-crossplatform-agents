@@ -15,6 +15,8 @@ An opinionated Claude Code plugin for Flutter development, modeled after the `ba
 - **Persistence stack** — Drift for relational/type-safe SQL, SharedPreferences/SecureStorage for key-value. No Hive, no ObjectBox, no Isar.
 - **Mirror backend-development structure** — 8 agents, 10 skills with reference files, 1 orchestration command.
 - **Content seeded from local skill** — The existing `.claude/skills/flutter-developer/` provides the foundation for 5 skills (BLoC, View, Data, DI, Animation).
+- **Discovery via directory convention** — The plugin loader discovers agents, skills, and commands by scanning the `agents/`, `skills/`, and `commands/` directories. The `plugin.json` manifest contains only metadata (name, version, description, author, license). No explicit registration of individual files is needed.
+- **No assets directory in v1.0** — Assets (checklists, templates) are out of scope for v1.0. May be added in future versions under `skills/<name>/assets/`.
 
 ## Directory Structure
 
@@ -51,6 +53,7 @@ flutter-crossplatform-development/
 │   │       ├── widget-composition.md
 │   │       ├── bloc-widgets.md
 │   │       ├── responsive-adaptive.md
+│   │       ├── navigation.md
 │   │       └── theming-design-system.md
 │   ├── data-domain-layer/
 │   │   ├── SKILL.md
@@ -117,7 +120,7 @@ flutter-crossplatform-development/
 
 ## Global Rules (Enforced by All Agents and Skills)
 
-1. **Never use Cubit** — BLoC only. Exceptions: stream-based state (WebSockets, location) or explicit learning phase.
+1. **Never use Cubit** — BLoC only. Exceptions: stream-based state wrappers (WebSockets, location streams where the Cubit simply forwards a Stream) or when the user explicitly states they are in a learning/prototyping phase and requests Cubit for simplicity.
 2. **Constructor injection only** — Never use getIt or service locator inside BLoC. Repositories passed via constructor.
 3. **Never expose DTOs to BLoC layer** — Always map to domain entities at repository boundary.
 4. **Sealed classes + Equatable** — For all states and events. Immutable, no logic in states.
@@ -127,6 +130,31 @@ flutter-crossplatform-development/
 8. **Localization classes for all strings** — No hardcoded user-facing strings.
 9. **StatelessWidget by default** — StatefulWidget only for ephemeral state (animations, text controllers).
 10. **RepaintBoundary for animated content** — Never setState to drive CustomPainter.
+
+## Agent File Format
+
+Each agent is a markdown file in `agents/` with YAML frontmatter and a structured body. This follows the backend-development plugin convention where agent files are 150-310 line self-contained system prompts.
+
+### Frontmatter Schema
+```yaml
+---
+name: <agent-name>           # kebab-case identifier
+description: <1-2 sentences> # Used for agent discovery and triggering
+model: inherit|sonnet|opus   # Model selection
+---
+```
+
+### Required Body Sections
+1. **Purpose** — 2-3 sentences defining the agent's role and specialization
+2. **Capabilities** — Bulleted list with subsections covering all expertise areas
+3. **Behavioral Traits** — 8-10 principles for how the agent approaches problems. Must include the Global Rules relevant to this agent's domain.
+4. **Knowledge Base** — Key areas of awareness (ecosystem, tooling, emerging patterns)
+5. **Response Approach** — Numbered methodology the agent follows when handling requests
+6. **Example Interactions** — 5-8 sample prompts showing when to invoke this agent
+
+### Model Selection Rationale
+- **`inherit`** — For agents making critical architectural decisions that benefit from maximum reasoning (flutter-architect, flutter-state-expert, flutter-platform-engineer)
+- **`sonnet`** — For focused implementation and review agents where speed matters more than deep reasoning (flutter-ui-expert, flutter-animation-expert, flutter-testing-expert, flutter-performance-engineer, flutter-data-engineer)
 
 ## Agents
 
@@ -178,6 +206,32 @@ flutter-crossplatform-development/
 - **Expertise:** Pure Dart entities with Equatable (no JSON, no Flutter), DTOs with json_serializable + snake_case, abstract repository interfaces with @useResult, @immutable implementations, mapper classes for complex/bidirectional conversions, Drift for type-safe SQL (setup, migrations, DAOs), SharedPreferences/SecureStorage for key-value, Dio + Retrofit for REST, domain exceptions at boundary (never expose DioException), offline-first sync, caching strategies
 - **Proactive use:** When designing data flow, implementing repositories, or setting up persistence
 
+## Skill File Format
+
+Each skill lives in `skills/<name>/SKILL.md` with optional `references/` subdirectory. This follows the same pattern as the local `flutter-developer` skill.
+
+### SKILL.md Frontmatter Schema
+```yaml
+---
+name: <skill-name>           # kebab-case identifier
+description: >               # Multi-line trigger description — be verbose with keywords
+  <Description covering what the skill does and ALL trigger keywords.
+  List specific terms users might mention to ensure accurate skill activation.>
+---
+```
+
+### SKILL.md Body Structure
+1. **Title** — `# <Skill Name>`
+2. **Architecture overview** — Brief diagram or description of how this layer/topic fits in the overall architecture
+3. **Reference Files — Read Before Answering** — Table mapping topics to reference files with "When to read" guidance. **Rule: Always read the relevant reference(s) in full before writing code for that layer.**
+4. **Quick Reference** — Concise rules table (Concern | Rule) for at-a-glance enforcement
+5. **Key Anti-Patterns to Flag** — Numbered list of common mistakes the skill must catch immediately
+
+### Reference Files
+- Plain markdown, no frontmatter required (but may include a `description` frontmatter for context)
+- Contain detailed rules, code examples, and anti-patterns
+- Should be self-contained — readable without the parent SKILL.md
+
 ## Skills
 
 ### 1. bloc-state-management
@@ -207,6 +261,7 @@ flutter-crossplatform-development/
   - `widget-composition.md` — Small focused widgets, extract private widget classes, StatelessWidget by default, StatefulWidget only for ephemeral state, const constructors, key usage strategy
   - `bloc-widgets.md` — BlocBuilder with switch expression on sealed states, BlocListener for side effects with private method extraction, BlocConsumer, buildWhen/listenWhen for rebuild optimization, MultiBlocProvider/MultiBlocListener, context extensions for boilerplate reduction. **Seeded from local `view-rules.md`**
   - `responsive-adaptive.md` — LayoutBuilder, MediaQuery, breakpoint system, adaptive widgets (platform-aware), responsive design for mobile/tablet/desktop, orientation handling
+  - `navigation.md` — go_router setup (declarative, type-safe), route configuration, nested navigation (ShellRoute), deep linking, redirect guards for auth, path parameters, query parameters, Navigator 2.0 fundamentals
   - `theming-design-system.md` — Theme.of(context) always, Material 3 color scheme and typography, dark/light theme setup, custom ThemeExtension for app-specific tokens, Cupertino theming, design system implementation
 
 ### 4. data-domain-layer
@@ -255,7 +310,7 @@ flutter-crossplatform-development/
 - **References:**
   - `patterns-records-sealed.md` — Pattern matching with switch expressions (exhaustiveness), destructuring (positional and named), records for multiple return values, sealed class hierarchies for type-safe unions, guard clauses in patterns, logical/relational patterns
   - `async-isolates.md` — Future and async/await best practices, Stream and StreamController, Isolate.run() for CPU-intensive work, compute() shorthand, Zone error handling, stream transformers, completer usage
-  - `code-generation.md` — build_runner setup and workflow, json_serializable for DTOs, freezed for immutable data classes with union types, auto_route for type-safe navigation, injectable for DI code generation, custom Builder implementation
+  - `code-generation.md` — build_runner setup and workflow, json_serializable for DTOs, freezed (documented as alternative to hand-written sealed+Equatable — **not recommended** for BLoC states/events where hand-written sealed classes are the standard, but acceptable for complex DTOs or value objects outside the BLoC layer), go_router for declarative navigation, custom Builder implementation. **Note:** `injectable` (get_it-based) is documented only as an anti-pattern to flag — it violates Global Rule 2 (constructor injection only, no service locator)
 
 ### 9. devops-deployment
 - **Name:** devops-deployment
@@ -276,6 +331,10 @@ flutter-crossplatform-development/
   - `compliance-gdpr.md` — GDPR data handling principles, privacy-by-design, user consent management, right to deletion implementation, data minimization, --obfuscate and --split-debug-info for release builds, audit logging
 
 ## Orchestration Command: flutter-feature
+
+> **Implementation note:** This section is a design blueprint. The actual `commands/flutter-feature.md` file must be a complete, executable command document (like backend-development's `feature-development.md` at ~500 lines) with full YAML frontmatter, behavioral rules, step-by-step instructions including literal Agent tool call blocks with prompts, checkpoint logic with AskUserQuestion, and completion summary. The sections below define WHAT each step does; the implementation must translate these into the HOW (executable task prompts).
+
+> **Naming note:** The state directory is `.flutter-dev/` (not `.feature-dev/`) to avoid collisions when both this plugin and backend-development are installed in the same project.
 
 ### Frontmatter
 ```yaml
@@ -329,12 +388,12 @@ User reviews architecture, state design, and data layer. Options: approve, reque
 - Input: Steps 1-3 + 4a + 4b output
 - Output: `.flutter-dev/04c-ui.md`
 
-**Step 5: Testing** (depends on 4a-4c)
+**Step 5: Testing** (parallel with Step 6; depends on 4a-4c)
 - Agent: flutter-testing-expert
 - Input: All prior outputs
 - Output: `.flutter-dev/05-tests.md`
 
-**Step 6: Performance Review** (depends on 4c)
+**Step 6: Performance Review** (parallel with Step 5; depends on 4a-4c)
 - Agent: flutter-performance-engineer
 - Input: Steps 4a-4c output
 - Output: `.flutter-dev/06-performance.md`
@@ -396,6 +455,18 @@ The following local skill files seed the initial plugin content:
 | `.claude/skills/flutter-developer/references/di-reference.md` | `architecture-patterns/references/dependency-injection.md` |
 | `.claude/skills/flutter-developer/references/animation-rules.md` | `animation-performance/references/animation-controllers.md` + `custom-painter.md` |
 
+### Split Strategy for Multi-Target Seeding
+
+**`data-rules.md` → `entities-dtos.md` + `repository-pattern.md`:**
+- Sections 1-5 (Layer Overview, Directory Structure, Entities, Repository Interfaces, DTOs) → `entities-dtos.md`
+- Sections 6-11 (Mappers, Data Sources, Repository Implementation, Error Handling, DI, Best Practices) → `repository-pattern.md`
+- Split boundary: everything about "what the models look like" vs "how data flows through the system"
+
+**`animation-rules.md` → `animation-controllers.md` + `custom-painter.md`:**
+- Sections 1-2, 10 (Refresh Rate, Avoid Rebuilds, Implicit/Explicit Animation Patterns) → `animation-controllers.md`
+- Sections 3-9 (RepaintBoundary, Structural Integrity, Custom Tickers, RenderObject, Canvas/Painting, Shaders, CustomPainter Pattern) → `custom-painter.md`
+- Split boundary: "how to set up and drive animations" vs "how to paint and render efficiently"
+
 Seeded content will be expanded with additional examples, edge cases, and cross-references to other plugin skills.
 
 ## File Count Summary
@@ -404,6 +475,6 @@ Seeded content will be expanded with additional examples, edge cases, and cross-
 |---|---|
 | Agents | 8 |
 | Skills | 10 |
-| Reference files | 35 |
+| Reference files | 36 |
 | Commands | 1 |
-| **Total files** | **55** (including SKILL.md files and plugin.json) |
+| **Total files** | **56** (including SKILL.md files and plugin.json) |
