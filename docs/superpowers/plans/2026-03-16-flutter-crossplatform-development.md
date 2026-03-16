@@ -20,7 +20,17 @@
 
 1. **This is a content plugin, not a code project.** There are no tests to run, no builds to execute. Quality is verified by structural compliance with the spec's file format requirements.
 2. **Read the reference plugin** before writing any file. The backend-development plugin at the path above shows exact formatting, line counts, and depth expected for agents (~150-310 lines), skills (~50-110 lines for SKILL.md), and commands (~500 lines).
-3. **Global Rules must appear in every agent and skill.** The 10 global rules from the spec (lines 123-132) must be embedded in every agent's Behavioral Traits and referenced in every skill's Quick Reference where relevant.
+3. **Global Rules must appear in every agent and skill.** The 10 global rules from the spec (lines 123-132) must be embedded in every agent's Behavioral Traits and referenced in every skill's Quick Reference where relevant. Use this mapping:
+   - **bloc-state-management**: Rules 1 (no Cubit), 2 (constructor injection), 4 (sealed+Equatable), 5 (explicit transformers)
+   - **architecture-patterns**: Rules 2 (constructor injection), 3 (no DTO exposure)
+   - **view-ui-layer**: Rules 7 (Theme.of), 8 (localization), 9 (StatelessWidget default)
+   - **data-domain-layer**: Rules 3 (no DTO exposure), 6 (no Hive)
+   - **animation-performance**: Rule 10 (RepaintBoundary, no setState for painter)
+   - **testing-strategies**: Rules 1, 4, 5 (test that BLoCs follow these rules)
+   - **platform-integration**: Rule 2 (constructor injection for native abstractions)
+   - **dart-language-mastery**: Rules 4 (sealed classes), 5 (transformers)
+   - **devops-deployment**: Rule 6 (no Hive in dependencies)
+   - **security-compliance**: Rule 6 (SecureStorage, not SharedPreferences for sensitive data)
 4. **Seeded content must be expanded**, not just copied. The local skill files are a starting point. Add more examples, edge cases, and cross-references to other plugin skills.
 5. **All paths below are relative to the plugin root:** `flutter-crossplatform-development/`
 
@@ -1045,32 +1055,7 @@ git commit -m "feat: add flutter-data-engineer agent"
 
 **Reference:** Read `~/.claude/plugins/cache/claude-plugins-official/backend-development/1.3.1/commands/feature-development.md` as the format template. The Flutter command must match this level of detail (~500 lines).
 
-- [ ] **Step 1: Write flutter-feature.md**
-
-This is the most complex file in the plugin. It must be a complete, executable command document. Structure:
-
-```yaml
----
-description: "Orchestrate end-to-end Flutter feature development from requirements to deployment"
-argument-hint: "<feature description> [--architecture clean|feature-driven] [--complexity simple|medium|complex]"
----
-```
-
-Body must include (in order):
-1. **Critical Behavioral Rules** (6 rules from spec lines 430-435)
-2. **Pre-flight Checks**: check `.flutter-dev/state.json`, initialize state, parse arguments
-3. **Phase 1: Discovery (Steps 1-3)** — Sequential. Each step includes:
-   - Full Agent tool call block with `subagent_type`, `description`, and `prompt` (multi-line, detailed)
-   - Output file path (`.flutter-dev/0N-*.md`)
-   - State update instructions
-4. **PHASE CHECKPOINT 1** — AskUserQuestion with approve/change/pause options
-5. **Phase 2: Implementation (Steps 4a-6)** — Parallel where noted. Same detail level per step.
-   - 4a + 4b parallel
-   - 4c depends on 4a+4b
-   - 5 + 6 parallel, depend on 4a-4c
-6. **PHASE CHECKPOINT 2** — AskUserQuestion
-7. **Phase 3: Delivery (Step 7)** — Sequential
-8. **Completion** — state.json update, final summary with file listing and success criteria
+This is the most complex file in the plugin (~500 lines). It must be a complete, executable command document matching the format of backend-development's `feature-development.md`. Split into 3 write steps.
 
 Each step's Agent prompt must:
 - Reference the agent by `subagent_type` (e.g., `flutter-architect`)
@@ -1079,7 +1064,56 @@ Each step's Agent prompt must:
 - Specify deliverables expected from the agent
 - End with "Write your complete [output type] as a single markdown document."
 
-- [ ] **Step 2: Commit**
+- [ ] **Step 1: Write frontmatter + behavioral rules + pre-flight checks**
+
+Create `commands/flutter-feature.md` with:
+
+```yaml
+---
+description: "Orchestrate end-to-end Flutter feature development from requirements to deployment"
+argument-hint: "<feature description> [--architecture clean|feature-driven] [--complexity simple|medium|complex]"
+---
+```
+
+Then write:
+1. **Critical Behavioral Rules** (6 rules from spec lines 430-435)
+2. **Pre-flight Checks**: check `.flutter-dev/state.json` for existing session (resume or start fresh), initialize state.json with feature/architecture/complexity/current_step, parse `$ARGUMENTS` for `$FEATURE` and flags
+
+- [ ] **Step 2: Write Phase 1 discovery + Checkpoint 1 + Phase 2 implementation + Checkpoint 2**
+
+Append to `commands/flutter-feature.md`:
+
+**Phase 1: Discovery (Steps 1-3)** — Sequential. Each step includes:
+- Full Agent tool call block with `subagent_type`, `description`, and multi-line `prompt`
+- Output file path (`.flutter-dev/0N-*.md`)
+- State update instructions (current_step, completed_steps)
+
+Steps:
+- Step 1: flutter-architect → `.flutter-dev/01-architecture.md`
+- Step 2: flutter-state-expert (reads Step 1) → `.flutter-dev/02-state-design.md`
+- Step 3: flutter-data-engineer (reads Steps 1-2) → `.flutter-dev/03-data-design.md`
+
+**PHASE CHECKPOINT 1** — AskUserQuestion with 3 options: approve, request changes, pause
+
+**Phase 2: Implementation (Steps 4a-6)** — Parallel where noted:
+- 4a (flutter-state-expert) + 4b (flutter-data-engineer) in parallel
+- 4c (flutter-ui-expert) depends on 4a+4b
+- 5 (flutter-testing-expert) + 6 (flutter-performance-engineer) in parallel, depend on 4a-4c
+
+**PHASE CHECKPOINT 2** — AskUserQuestion with 3 options
+
+- [ ] **Step 3: Write Phase 3 delivery + completion summary**
+
+Append to `commands/flutter-feature.md`:
+
+**Phase 3: Delivery (Step 7)** — Sequential:
+- Step 7: flutter-platform-engineer (reads all prior) → `.flutter-dev/07-platform.md`
+
+**Completion**:
+- Update state.json: status "complete", last_updated timestamp
+- Final summary: list all files, implementation summary per phase, success criteria
+
+- [ ] **Step 4: Commit**
 
 ```bash
 git add commands/flutter-feature.md
