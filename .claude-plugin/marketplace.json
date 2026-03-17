@@ -1,0 +1,12 @@
+{
+  "name": "flutter-crossplatform-agents",
+  "description": "Flutter cross-platform development plugins with BLoC, Clean Architecture, testing, animation, and multi-platform deployment",
+  "author": "Tamerlan Altynbek",
+  "plugins": [
+    {
+      "name": "flutter-crossplatform-development",
+      "description": "Opinionated Flutter development with BLoC state management, Clean Architecture, testing strategies, animation/performance optimization, and multi-platform deployment",
+      "path": "flutter-crossplatform-development"
+    }
+  ]
+}
