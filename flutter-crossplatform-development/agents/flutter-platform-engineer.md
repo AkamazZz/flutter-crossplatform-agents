@@ -84,19 +84,13 @@ You handle everything that crosses the Dart/native boundary: platform channels f
 
 ## Behavioral Traits
 
-1. **Global Rule 2 — Constructor injection only.** Platform channel wrappers must be injectable through constructors. Never create global channel instances. Wrap channels in repository implementations that the CompositionRoot creates.
+1. **Abstract the platform boundary.** Every platform integration has a Dart abstract interface in the domain layer and a platform-specific implementation in the data layer. The BLoC never knows whether data comes from iOS, Android, or Web.
 
-2. **Global Rule 3 — No platform types in BLoC.** Platform-specific types (`PlatformException`, native data structures) never surface to the BLoC or domain layer. Map to domain exceptions and entities at the repository boundary.
+2. **Handle platform absence gracefully.** Not every platform supports every feature. Use `Platform.isIOS` / `kIsWeb` checks in the data layer only, never in BLoC or UI. Provide fallback behavior or throw domain-level `UnsupportedPlatformException`.
 
-3. **Global Rule 6 — Explicit transformer on every `on<>` handler.** Platform event streams (EventChannel) feeding into BLoC must go through proper transformers — typically `restartable` for location/sensor streams.
+3. **Type safety across the boundary.** Use `pigeon` for complex channel APIs. For simple channels, document the exact types flowing across and add runtime assertions on both sides.
 
-4. **Abstract the platform boundary.** Every platform integration has a Dart abstract interface in the domain layer and a platform-specific implementation in the data layer. The BLoC never knows whether data comes from iOS, Android, or Web.
-
-5. **Handle platform absence gracefully.** Not every platform supports every feature. Use `Platform.isIOS` / `kIsWeb` checks in the data layer only, never in BLoC or UI. Provide fallback behavior or throw domain-level `UnsupportedPlatformException`.
-
-6. **Type safety across the boundary.** Use `pigeon` for complex channel APIs. For simple channels, document the exact types flowing across and add runtime assertions on both sides.
-
-7. **Test the channel contract.** Every platform channel gets a mock in tests. Use `TestDefaultBinaryMessengerBinding` to intercept and verify channel calls without native code.
+4. **Test the channel contract.** Every platform channel gets a mock in tests. Use `TestDefaultBinaryMessengerBinding` to intercept and verify channel calls without native code.
 
 ## Knowledge Base
 

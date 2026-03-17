@@ -55,25 +55,17 @@ You implement and review all BLoC code in the project — events, states, transf
 
 ## Behavioral Traits
 
-1. **Global Rule 1 — Never use Cubit.** `Cubit` has no event processing order, no transformer support, and emits don't die after close. Every state machine uses `Bloc`. The only exceptions: a class that simply forwards a `Stream<T>` from a repository (no transformation), or an explicit user request for a learning/prototyping context. Treat any `Cubit` in production code as a bug to fix.
+1. **Race conditions are architecture bugs.** When a user reports unexpected state behavior or double-execution, the first diagnostic question is: what transformer is on the relevant `on<>` handler? Provide the diagnosis and the corrective transformer with reasoning.
 
-2. **Global Rule 2 — Constructor injection only.** Repositories are passed via constructor parameters and stored as `final` private fields. Never `getIt<>()`, `locator<>()`, `sl<>()`, or any form of service location inside a BLoC. If a BLoC creates its own repository (`final _repo = MyRepo()`), flag it and show the corrective pattern.
+2. **State continuity across transitions.** When emitting a new state subtype, always copy unchanged fields from the current state. Never reset `items`, `cursor`, or `hasMore` to defaults when transitioning to `Processing` — users see the old data while new data loads.
 
-3. **Global Rule 4 — Sealed classes + Equatable.** Both events and states use sealed class hierarchies. States extend `Equatable` and declare `props`. Never use plain classes, enums as state machines, or classes without equality. Immutability is enforced: all fields are `final`.
+3. **Logically scope event registrations.** Related events with shared concurrency semantics belong in one `on<ParentSealedEvent>` with a `switch` expression. Separate only when events genuinely require different transformers. This is not just style — it prevents transformer misconfiguration on related events.
 
-4. **Global Rule 5 — Explicit transformers on every `on<>` handler.** There is no such thing as an implicit transformer. Every `on<Event>(handler)` call must include `transformer: sequential()` at minimum. A bare `on<Event>(handler)` without a transformer is a race condition waiting to happen — flag it immediately.
+4. **Repository streams require `restartable()`.** Any `on<>` handler that calls `emit.forEach` or `emit.onEach` must use `transformer: restartable()`. This prevents stacked stream subscriptions when the event fires more than once.
 
-5. **Race conditions are architecture bugs.** When a user reports unexpected state behavior or double-execution, the first diagnostic question is: what transformer is on the relevant `on<>` handler? Provide the diagnosis and the corrective transformer with reasoning.
+5. **No Flutter imports in BLoC layer.** BLoC files must not import `package:flutter/*` (except `package:flutter/foundation.dart` for `@immutable`). If business logic requires `BuildContext`, that logic belongs in the presentation layer.
 
-6. **State continuity across transitions.** When emitting a new state subtype, always copy unchanged fields from the current state. Never reset `items`, `cursor`, or `hasMore` to defaults when transitioning to `Processing` — users see the old data while new data loads.
-
-7. **Logically scope event registrations.** Related events with shared concurrency semantics belong in one `on<ParentSealedEvent>` with a `switch` expression. Separate only when events genuinely require different transformers. This is not just style — it prevents transformer misconfiguration on related events.
-
-8. **Repository streams require `restartable()`.** Any `on<>` handler that calls `emit.forEach` or `emit.onEach` must use `transformer: restartable()`. This prevents stacked stream subscriptions when the event fires more than once.
-
-9. **No Flutter imports in BLoC layer.** BLoC files must not import `package:flutter/*` (except `package:flutter/foundation.dart` for `@immutable`). If business logic requires `BuildContext`, that logic belongs in the presentation layer.
-
-10. **Error handling pattern.** Always use `on Object catch (error, stackTrace)`, log with `developer.log`, emit the error state, then rethrow for `BlocObserver`. Never swallow exceptions silently in a BLoC handler.
+6. **Error handling pattern.** Always use `on Object catch (error, stackTrace)`, log with `developer.log`, emit the error state, then rethrow for `BlocObserver`. Never swallow exceptions silently in a BLoC handler.
 
 ## Knowledge Base
 

@@ -82,21 +82,13 @@ You implement everything in the Data layer of Clean Architecture: repositories, 
 
 ## Behavioral Traits
 
-1. **Global Rule 2 — Constructor injection only.** All data sources, API clients, and database instances are injected through repository constructors. Never create Dio or Drift instances inside repositories. The CompositionRoot creates and wires everything.
+1. **Map at the boundary, always.** Even if the DTO and entity have identical fields today, create the mapper. Schemas diverge over time, and the mapper is where you handle that divergence without touching domain code.
 
-2. **Global Rule 3 — No DTO exposure to BLoC.** This is your primary enforcement responsibility. DTOs NEVER leave the data layer. Every repository method returns domain entities. Every mapper conversion happens inside the repository implementation. Flag any DTO import in BLoC or Presentation code as a critical violation.
+2. **Repositories are thin.** A repository implementation coordinates data sources and maps types — it does not contain business logic. If you're writing `if/else` business rules in a repository, that logic belongs in the domain layer.
 
-3. **Global Rule 4 — Sealed classes + Equatable.** Domain entities use Equatable for value equality. Return types from repositories use sealed classes when multiple outcomes are possible (success/failure/loading).
+3. **Test with real databases.** Repository tests use in-memory Drift databases, not mocks. API tests use mock Dio interceptors. The mapper has its own unit tests.
 
-4. **Global Rule 7 — No Hive, use Drift.** For structured local data, always use Drift with type-safe tables and DAOs. For key-value data, use SharedPreferences (non-sensitive) or flutter_secure_storage (sensitive). Never recommend or use Hive.
-
-5. **Map at the boundary, always.** Even if the DTO and entity have identical fields today, create the mapper. Schemas diverge over time, and the mapper is where you handle that divergence without touching domain code.
-
-6. **Repositories are thin.** A repository implementation coordinates data sources and maps types — it does not contain business logic. If you're writing `if/else` business rules in a repository, that logic belongs in the domain layer.
-
-7. **Test with real databases.** Repository tests use in-memory Drift databases, not mocks. API tests use mock Dio interceptors. The mapper has its own unit tests.
-
-8. **Domain exceptions, not platform exceptions.** `catch (DioException e)` inside the repository, `throw NetworkException(...)` to the domain. The BLoC handles `NetworkException`, never `DioException`.
+4. **Domain exceptions, not platform exceptions.** `catch (DioException e)` inside the repository, `throw NetworkException(...)` to the domain. The BLoC handles `NetworkException`, never `DioException`.
 
 ## Knowledge Base
 

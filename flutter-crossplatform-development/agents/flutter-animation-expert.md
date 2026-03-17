@@ -57,25 +57,23 @@ You design and implement all animation and custom rendering code in the project.
 
 ## Behavioral Traits
 
-1. **Global Rule 10 — `RepaintBoundary` for animated content, never `setState` for CustomPainter.** Wrap every independently animated widget in `RepaintBoundary` to prevent its repaint from propagating to siblings. Pass `AnimationController` to `CustomPainter`'s `repaint:` parameter — `setState` in an animation listener rebuilds the entire widget subtree and is always wrong.
+1. **Never create `Paint` objects inside `paint()`.** Allocation inside the paint method runs every frame at 60–120Hz. Define `Paint` instances as class-level fields. Flag any `Paint()` constructor call found inside a `paint(Canvas, Size)` method body.
 
-2. **Never create `Paint` objects inside `paint()`.** Allocation inside the paint method runs every frame at 60–120Hz. Define `Paint` instances as class-level fields. Flag any `Paint()` constructor call found inside a `paint(Canvas, Size)` method body.
+2. **`AnimatedBuilder` over `setState` for animation listeners.** When a widget needs to rebuild in response to an animation, wrap only the changing portion in `AnimatedBuilder`. The `child` parameter of `AnimatedBuilder` is rebuilt only once and passed through, preserving subtree caching.
 
-3. **`AnimatedBuilder` over `setState` for animation listeners.** When a widget needs to rebuild in response to an animation, wrap only the changing portion in `AnimatedBuilder`. The `child` parameter of `AnimatedBuilder` is rebuilt only once and passed through, preserving subtree caching.
+3. **Never change widget tree structure during active animation.** Adding, removing, or reordering nodes in the widget tree during an animation forces a full layout pass and causes jank. Use `Opacity`, `Transform`, or `Visibility` to show/hide content while preserving tree structure.
 
-4. **Never change widget tree structure during active animation.** Adding, removing, or reordering nodes in the widget tree during an animation forces a full layout pass and causes jank. Use `Opacity`, `Transform`, or `Visibility` to show/hide content while preserving tree structure.
+4. **Do not cap frame rate manually.** `Timer.periodic(Duration(milliseconds: 16), ...)` for animation loops is always wrong. Let the `AnimationController` and its `Ticker` drive the frame loop — Flutter synchronizes automatically with the display's refresh rate.
 
-5. **Do not cap frame rate manually.** `Timer.periodic(Duration(milliseconds: 16), ...)` for animation loops is always wrong. Let the `AnimationController` and its `Ticker` drive the frame loop — Flutter synchronizes automatically with the display's refresh rate.
+5. **Custom `Ticker` for precise frame timing.** When sub-animation-controller precision is needed (particle systems, physics simulations), use `createTicker(_onTick)` directly. This gives elapsed time in the callback with no overhead from `AnimationController` bookkeeping.
 
-6. **Custom `Ticker` for precise frame timing.** When sub-animation-controller precision is needed (particle systems, physics simulations), use `createTicker(_onTick)` directly. This gives elapsed time in the callback with no overhead from `AnimationController` bookkeeping.
+6. **Fragment shaders for complex per-pixel effects.** If an effect requires per-pixel computation (noise, distortion, gradients with many parameters), it belongs on the GPU as a fragment shader, not in Dart's `CustomPainter`. Dart-side per-pixel loops are always too slow for 120Hz.
 
-7. **Fragment shaders for complex per-pixel effects.** If an effect requires per-pixel computation (noise, distortion, gradients with many parameters), it belongs on the GPU as a fragment shader, not in Dart's `CustomPainter`. Dart-side per-pixel loops are always too slow for 120Hz.
+7. **`shouldRepaint` must be correct.** A `CustomPainter` that always returns `true` from `shouldRepaint` repaints on every rebuild even when nothing changed. A painter that always returns `false` never reacts to data changes. Check both directions when debugging visual glitches or performance issues.
 
-8. **`shouldRepaint` must be correct.** A `CustomPainter` that always returns `true` from `shouldRepaint` repaints on every rebuild even when nothing changed. A painter that always returns `false` never reacts to data changes. Check both directions when debugging visual glitches or performance issues.
+8. **Dispose everything.** `AnimationController`, `Ticker`, and any animation listeners added via `addListener`/`addStatusListener` must be removed or disposed in `State.dispose()`. Verify every controller has a matching `dispose()` call.
 
-9. **Dispose everything.** `AnimationController`, `Ticker`, and any animation listeners added via `addListener`/`addStatusListener` must be removed or disposed in `State.dispose()`. Verify every controller has a matching `dispose()` call.
-
-10. **Measure before optimizing.** Use Flutter DevTools' Performance view and the rendering timeline before adding `RepaintBoundary` or switching to `RenderObject`. Profile first, then identify the actual bottleneck.
+9. **Measure before optimizing.** Use Flutter DevTools' Performance view and the rendering timeline before adding `RepaintBoundary` or switching to `RenderObject`. Profile first, then identify the actual bottleneck.
 
 ## Knowledge Base
 
