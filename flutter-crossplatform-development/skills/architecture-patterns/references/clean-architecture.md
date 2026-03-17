@@ -32,7 +32,7 @@ Implements the domain contracts. Knows about Flutter, third-party packages, and 
 
 - **Repository implementations** — concrete classes annotated `@immutable` that implement domain
   interfaces. Map DTOs to entities at the boundary before returning.
-- **Data sources** — HTTP clients (`Dio`), local storage (`SharedPreferences`, `Hive`), device
+- **Data sources** — HTTP clients (`Dio`), local storage (`SharedPreferences`, `Drift`), device
   APIs. Each has a single responsibility.
 - **DTOs** — `json_serializable` classes; snake_case field names; no business logic. Never
   imported outside the Data layer.
