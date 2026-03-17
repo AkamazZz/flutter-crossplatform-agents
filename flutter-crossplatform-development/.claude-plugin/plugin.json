@@ -1,6 +1,6 @@
 {
   "name": "flutter-crossplatform-development",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Opinionated Flutter development with BLoC state management, Clean Architecture, testing strategies, animation/performance optimization, and multi-platform deployment",
   "author": {
     "name": "Tamerlan Altynbek"

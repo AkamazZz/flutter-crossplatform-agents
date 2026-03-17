@@ -559,7 +559,7 @@ Task:
     [Insert full contents of .flutter-dev/04c-ui.md]
 
     ## Instructions
-    Write production-ready tests covering every layer of the implementation:
+    Write production-ready tests covering BLoC logic and visual regression:
 
     1. **BLoC Unit Tests** — Using `bloc_test` package, test every BLoC:
        - Use `blocTest<Bloc, State>()` with `act`, `expect`, `verify`
@@ -571,39 +571,17 @@ Task:
        - Test initial state
        - Verify repository method calls with `verify()` and `verifyNoMoreInteractions()`
 
-    2. **Repository Unit Tests** — Test repository implementations:
-       - Mock data sources and API clients
-       - Verify DTO-to-entity mapping correctness
-       - Test error handling (DioException → domain exception mapping)
-       - Test caching behavior if applicable
-       - Test offline fallback if applicable
-
-    3. **Mapper Unit Tests** — Test all mapper classes:
-       - Verify bidirectional conversion correctness
-       - Test edge cases (null fields, empty collections, missing optional fields)
-
-    4. **Widget Tests** — Using `testWidgets`:
-       - For each screen, test that every sealed state branch renders the
-         correct widget subtree
-       - Mock BLoC with `MockBloc` from `bloc_test`
-       - Use `whenListen` to simulate state sequences
-       - Test user interactions (taps, text input) trigger correct events
-       - Test BlocListener side effects (navigation, snackbar)
-       - Use `pumpWidget` with `BlocProvider.value` for injecting mock BLoCs
-
-    5. **Golden File Tests** — For critical UI components:
+    2. **Golden File Tests** — For each screen and critical UI component:
        - Define golden files for each sealed state variant
+       - Mock BLoC with `MockBloc` from `bloc_test`, seed each sealed state
+       - Wrap with `BlocProvider.value` and `MaterialApp` for proper theming
        - Load fonts for deterministic rendering
        - Document `--update-goldens` workflow for CI
 
-    6. **Integration Test Skeletons** — Define Patrol or integration_test
-       skeletons for end-to-end user journeys (can be expanded later).
-
     ## Rules
-    - Every BLoC event must have at least one test
-    - Every sealed state branch must be covered in widget tests
+    - Every BLoC event must have at least one blocTest
+    - Every sealed state branch must have a golden file
     - Mock repositories at BLoC boundary — never hit real APIs in unit tests
-    - Target 80%+ coverage for new code
     - Test error paths, not just happy paths
 
     Write your complete test suite as a single markdown document.
