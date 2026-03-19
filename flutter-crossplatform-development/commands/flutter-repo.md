@@ -11,7 +11,7 @@ You are generating a repository with its API client from a description or endpoi
 
 Parse `$ARGUMENTS` for the repository description, endpoint details, or API spec.
 
-Use the Agent tool with `subagent_type: "flutter-crossplatform-development:flutter-data-engineer"`:
+Use the Agent tool with `subagent_type: "flutter-crossplatform-development:flutter-feature-developer"`:
 
 ```
 Create a repository with API client for: $ARGUMENTS

@@ -38,6 +38,23 @@ These features are not isolated conveniences — they form the architectural bac
 | Completer | `final c = Completer<T>(); ... c.complete(value);` | Bridge a callback API into a Future |
 | asyncMap | `stream.asyncMap((e) async => ...)` | Async transformation in a stream pipeline |
 
+## Type System
+
+| Feature | Syntax | When to Use |
+|---------|--------|-------------|
+| Extension type | `extension type UserId(String value) implements String` | Zero-cost wrappers for typed IDs, units of measure |
+| Extension method | `extension on String { ... }` | Augment existing types without subclassing |
+| Bounded generics | `T extends Equatable` | Constrain type parameters to required capabilities |
+| Covariant override | `covariant ChildType param` | Narrow parameter types in method overrides |
+
+**Records vs. classes**: Use records for temporary groupings (`(int count, String label)` return values). Use classes for domain concepts with identity, equality, and methods.
+
+**Exhaustiveness is a feature, not a style choice.** Using `default:` or `_` in a switch on a sealed type defeats the purpose. Handle each case explicitly so the compiler catches missing cases when subtypes are added.
+
+**Streams must be cancelled.** Every `StreamSubscription` must have a corresponding `.cancel()` call. Every `StreamController` must have a `.close()` call. Leaked subscriptions cause memory leaks.
+
+**Code generation is a build step, not a runtime dependency.** The generator never runs at app startup.
+
 ## Anti-Patterns
 
 **Do not use nullable fields as a substitute for sealed classes.** A state object with `String? errorMessage` and `bool isLoading` is an uncontrolled product type. Use a sealed class hierarchy instead — every consumer is forced to handle every case at compile time.

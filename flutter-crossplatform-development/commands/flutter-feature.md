@@ -69,11 +69,11 @@ Extract the feature description from `$ARGUMENTS` (everything before the flags).
 
 ### Step 1: Requirements & Architecture
 
-Use the Task tool to launch the flutter architect:
+Use the Task tool to launch the feature developer:
 
 ```
 Task:
-  subagent_type: "flutter-architect"
+  subagent_type: "flutter-feature-developer"
   description: "Design architecture for $FEATURE"
   prompt: |
     Design the architecture for this Flutter feature: $FEATURE
@@ -127,11 +127,11 @@ Update `state.json`: set `current_step` to 2, add `"01-architecture.md"` to `fil
 
 Read `.flutter-dev/01-architecture.md` to load architecture context.
 
-Use the Task tool to launch the state management expert:
+Use the Task tool to launch the feature developer for state design:
 
 ```
 Task:
-  subagent_type: "flutter-state-expert"
+  subagent_type: "flutter-feature-developer"
   description: "Design BLoC state management for $FEATURE"
   prompt: |
     Design the BLoC state management layer for this Flutter feature: $FEATURE
@@ -196,11 +196,11 @@ Update `state.json`: set `current_step` to 3, add `"02-state-design.md"` to `fil
 
 Read `.flutter-dev/01-architecture.md` and `.flutter-dev/02-state-design.md`.
 
-Use the Task tool to launch the data engineer:
+Use the Task tool to launch the feature developer for data layer design:
 
 ```
 Task:
-  subagent_type: "flutter-data-engineer"
+  subagent_type: "flutter-feature-developer"
   description: "Design data layer for $FEATURE"
   prompt: |
     Design the complete data layer for this Flutter feature: $FEATURE
@@ -309,7 +309,7 @@ Launch this task in parallel with Step 4b using multiple Task tool calls in a si
 
 ```
 Task:
-  subagent_type: "flutter-state-expert"
+  subagent_type: "flutter-feature-developer"
   description: "Implement BLoC classes for $FEATURE"
   prompt: |
     Implement all BLoC classes for this Flutter feature: $FEATURE
@@ -378,7 +378,7 @@ Launch this task in parallel with Step 4a:
 
 ```
 Task:
-  subagent_type: "flutter-data-engineer"
+  subagent_type: "flutter-feature-developer"
   description: "Implement data layer for $FEATURE"
   prompt: |
     Implement the complete data layer for this Flutter feature: $FEATURE
@@ -599,7 +599,7 @@ Launch this task in parallel with Step 5:
 
 ```
 Task:
-  subagent_type: "flutter-performance-engineer"
+  subagent_type: "flutter-rendering-expert"
   description: "Performance review of $FEATURE implementation"
   prompt: |
     Perform a thorough performance review of this Flutter feature: $FEATURE

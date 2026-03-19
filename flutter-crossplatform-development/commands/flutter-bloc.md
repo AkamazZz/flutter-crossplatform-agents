@@ -11,7 +11,7 @@ You are generating a complete BLoC implementation from a description.
 
 Parse `$ARGUMENTS` for the BLoC description and any `--transformers` hint.
 
-Use the Agent tool with `subagent_type: "flutter-crossplatform-development:flutter-state-expert"`:
+Use the Agent tool with `subagent_type: "flutter-crossplatform-development:flutter-feature-developer"`:
 
 ```
 Implement a BLoC for: $ARGUMENTS

@@ -11,7 +11,7 @@ You are generating or updating the DI wiring for a feature.
 
 Parse `$ARGUMENTS` for the feature name.
 
-Use the Agent tool with `subagent_type: "flutter-crossplatform-development:flutter-architect"`:
+Use the Agent tool with `subagent_type: "flutter-crossplatform-development:flutter-feature-developer"`:
 
 ```
 Generate the dependency injection wiring for feature: $ARGUMENTS

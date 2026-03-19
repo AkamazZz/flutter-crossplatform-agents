@@ -35,12 +35,12 @@ Wait for user response before proceeding.
 
 Group fixes by type and dispatch to the appropriate agent:
 
-**BLoC violations (Rules 1, 4, 5)** — Use `subagent_type: "flutter-crossplatform-development:flutter-state-expert"`:
+**BLoC violations (Rules 1, 4, 5)** — Use `subagent_type: "flutter-crossplatform-development:flutter-feature-developer"`:
 - Convert Cubit to Bloc
 - Add missing transformers to `on<>` handlers
 - Convert plain classes to sealed hierarchies with Equatable
 
-**Data layer violations (Rules 2, 3, 6)** — Use `subagent_type: "flutter-crossplatform-development:flutter-data-engineer"`:
+**Data layer violations (Rules 2, 3, 6)** — Use `subagent_type: "flutter-crossplatform-development:flutter-feature-developer"`:
 - Replace service locator calls with constructor injection
 - Move DTO usage behind repository boundary
 - Replace Hive with Drift
@@ -50,7 +50,7 @@ Group fixes by type and dispatch to the appropriate agent:
 - Replace hardcoded strings with localization
 - Convert unjustified StatefulWidget to StatelessWidget
 
-**Architecture violations** — Use `subagent_type: "flutter-crossplatform-development:flutter-architect"`:
+**Architecture violations** — Use `subagent_type: "flutter-crossplatform-development:flutter-feature-developer"`:
 - Fix domain layer importing data/Flutter packages
 - Untangle cross-feature imports
 - Move wiring from widget tree to CompositionRoot

@@ -11,7 +11,7 @@ You are generating Drift persistence components for an entity.
 
 Parse `$ARGUMENTS` for the table description and column details.
 
-Use the Agent tool with `subagent_type: "flutter-crossplatform-development:flutter-data-engineer"`:
+Use the Agent tool with `subagent_type: "flutter-crossplatform-development:flutter-feature-developer"`:
 
 ```
 Create Drift persistence for: $ARGUMENTS

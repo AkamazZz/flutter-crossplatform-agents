@@ -11,7 +11,7 @@ You are generating a complete entity/DTO/mapper set from a description.
 
 Parse `$ARGUMENTS` for the entity name and field descriptions.
 
-Use the Agent tool with `subagent_type: "flutter-crossplatform-development:flutter-data-engineer"`:
+Use the Agent tool with `subagent_type: "flutter-crossplatform-development:flutter-feature-developer"`:
 
 ```
 Create the entity, DTO, and mapper for: $ARGUMENTS
