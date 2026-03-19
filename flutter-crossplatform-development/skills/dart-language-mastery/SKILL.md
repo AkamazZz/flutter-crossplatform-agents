@@ -46,38 +46,7 @@ These features are not isolated conveniences — they form the architectural bac
 
 **Do not use `compute()`.** It is deprecated. Use `Isolate.run()` directly.
 
-**Do not use `freezed` for BLoC states or events.** freezed generates equality and copyWith, but BLoC states and events are modeled as sealed class hierarchies (Global Rule 4). Introducing freezed here adds a code-generation dependency to the core domain layer without benefit. freezed is acceptable for complex DTOs or value objects that live outside the BLoC layer.
+**Do not use `freezed` for BLoC states or events.** See CLAUDE.md Rule 11.
 
-**Do not use `injectable`.** It relies on the get_it service locator, which violates Global Rule 2 (constructor injection only). See [code-generation.md](references/code-generation.md) for a full explanation.
+**Do not use `injectable`.** See CLAUDE.md Rule 13.
 
-## Global Rules (Relevant)
-
-### Rule 4 — Sealed Classes for States and Events
-
-All BLoC states and events must be modeled as sealed class hierarchies. Each subclass is a concrete, named case. Switch expressions over the sealed type must be exhaustive — the compiler enforces that every case is handled. No default arms are permitted unless the arm explicitly covers a wildcard that is intentional and documented.
-
-```dart
-sealed class AuthState {}
-final class AuthInitial extends AuthState {}
-final class AuthLoading extends AuthState {}
-final class AuthSuccess extends AuthState {
-  const AuthSuccess(this.user);
-  final User user;
-}
-final class AuthFailure extends AuthState {
-  const AuthFailure(this.message);
-  final String message;
-}
-
-// In BlocBuilder:
-switch (state) {
-  case AuthInitial() => const SizedBox.shrink(),
-  case AuthLoading() => const CircularProgressIndicator(),
-  case AuthSuccess(:final user) => UserDashboard(user: user),
-  case AuthFailure(:final message) => ErrorBanner(message: message),
-};
-```
-
-### Rule 5 — Stream Transformers
-
-Custom stream transformations must be expressed as reusable `StreamTransformer` instances rather than inline `map`/`where` chains scattered across the codebase. A transformer encapsulates the transformation logic, can be tested in isolation, and can be composed. Inline chaining is acceptable only for trivial single-step transformations local to a single method.

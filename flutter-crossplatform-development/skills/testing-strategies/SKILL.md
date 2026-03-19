@@ -59,16 +59,6 @@ Before generating any test code, read the relevant reference file(s).
 
 ---
 
-## Global Rules
-
-- **Rule 1** — Follow the project BLoC architecture; tests must mirror the event→state contract.
-- **Rule 4** — All sealed state branches must have at least one test covering the corresponding UI path.
-- **Rule 5** — Test files live alongside source files (`lib/…` → `test/…` with matching path).
-
-When reviewing or generating BLoC code, verify that these rules are satisfied by the test suite.
-
----
-
 ## Anti-Patterns
 
 ### Testing implementation details

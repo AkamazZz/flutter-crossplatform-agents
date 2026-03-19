@@ -86,6 +86,3 @@ flutter build apk --release
 - **Manual version bumping** — automate build numbers from CI run numbers or git tags to avoid human error
 - **Using Hive for build configuration** — do not add Hive as a dependency for storing flavor/environment config; use dart-defines and compile-time constants instead
 
----
-
-> **Global Rule 6:** Do not use Hive in dependencies. Use compile-time constants (`--dart-define`, `--dart-define-from-file`) for environment and flavor configuration. For runtime key-value storage needs, prefer `shared_preferences` or `flutter_secure_storage` depending on sensitivity.

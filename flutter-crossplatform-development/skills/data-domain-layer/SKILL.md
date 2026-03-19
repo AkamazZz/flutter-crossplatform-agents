@@ -29,22 +29,7 @@ BLoC Layer ←→ Domain Layer ←→ Data Layer
 - Owns DTOs, JSON serialization, API clients, local databases, and caches.
 - Maps DTOs → Entities at the repository boundary so the domain stays clean.
 
-### Directory Structure
-
-```
-packages/
-  domain/[feature]/lib/
-    entities/[feature]_entity.dart
-    repositories/[feature]_repository.dart
-
-  data/[feature]/lib/
-    repositories/[feature]_repository_impl.dart
-    sources/
-      remote/[feature]_api_client.dart
-      local/[feature]_local_storage.dart
-    models/[feature]_dto.dart
-    mappers/[feature]_mapper.dart
-```
+Directory structure: see CLAUDE.md — Directory Structure Convention.
 
 ## Reference Files — Read Before Answering
 
@@ -67,19 +52,7 @@ packages/
 | Repository impl | `@immutable`, constructor-inject all sources and mappers, map at boundary, cache in impl |
 | Mappers | Use for bidirectional or complex mapping; inject sub-mappers via constructor |
 | Exceptions | `DomainException` hierarchy; catch `DioException` in impl and rethrow as domain exception |
-| BLoC exposure | **Never expose DTOs to BLoC** — always map to entities first (Global Rule 3) |
-
-## Global Rules Embedded in This Skill
-
-**Rule 3 — Never expose DTOs to BLoC.**
-DTOs are infrastructure detail. The BLoC layer must only ever receive Domain Entities or
-primitives. Map at the repository boundary; if a DTO leaks past the repository, it is a bug.
-
-**Rule 6 — No Hive. Use Drift + SharedPreferences / SecureStorage.**
-Hive is not permitted on this project. Use:
-- **Drift** for structured, relational, or reactive local data.
-- **SharedPreferences** for simple key-value flags and settings.
-- **flutter_secure_storage** for tokens, credentials, and sensitive data.
+| BLoC exposure | **Never expose DTOs to BLoC** — always map to entities first |
 
 ## Anti-Patterns
 

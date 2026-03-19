@@ -37,22 +37,7 @@ User Gesture
 The View layer must **not** contain business logic, repository calls, or direct data-source
 access. All such concerns belong to the BLoC or Domain layers.
 
-## Directory Structure
-
-```
-lib/
-└── features/
-    └── [feature]/
-        └── view/
-            ├── screens/
-            │   └── [feature]_screen.dart     # Top-level routable screen
-            └── widgets/
-                ├── [feature]_header.dart      # Private or shared sub-widget
-                └── [feature]_list_item.dart
-```
-
-- `screens/` — one file per routable destination; wired to go_router.
-- `widgets/` — reusable sub-widgets scoped to the feature; prefixed `_` when file-private.
+Directory structure: see CLAUDE.md — Directory Structure Convention.
 
 ## Reference Files — Read Before Answering
 
@@ -79,8 +64,8 @@ Multiple references often apply — e.g. a new screen needs `bloc-widgets.md`,
 | Both rendering + side effects | `BlocConsumer` |
 | Boilerplate | Context extensions for repeated `context.read<Bloc>().add(...)` calls |
 | Rebuild optimisation | `buildWhen` / `listenWhen` to gate unnecessary rebuilds |
-| Styling | `Theme.of(context)` always — never hardcode colours, text styles, or sizes (Global Rule 7) |
-| Strings | Localisation classes only — never inline string literals visible to users (Global Rule 8) |
+| Styling | `Theme.of(context)` always — never hardcode colours, text styles, or sizes |
+| Strings | Localisation classes only — never inline string literals visible to users |
 
 ## Key Anti-Patterns
 

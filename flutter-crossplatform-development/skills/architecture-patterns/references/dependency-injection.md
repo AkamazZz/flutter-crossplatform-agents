@@ -5,13 +5,7 @@ description: >
 
 # Dependency Injection Reference
 
-## GLOBAL RULE 2 — Constructor Injection Only
-
-> All dependencies must be provided through constructors. Service locators (`GetIt`, `injectable`,
-> `ComponentHolder`, any global singleton registry) are **forbidden** everywhere in the codebase.
-
-Flag any occurrence of `getIt<>()`, `locator<>()`, `sl<>()`, `GetIt.instance`, or
-`ServiceLocator.of()` immediately in code review. This is a non-negotiable architectural rule.
+> CLAUDE.md Rule 2 (constructor injection only) applies throughout. See CLAUDE.md for full text.
 
 ## Pure DI Principle
 

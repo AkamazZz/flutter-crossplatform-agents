@@ -6,11 +6,7 @@ description: >
 
 # BLoC Core Rules
 
-> **Global Rules Callout**
-> - **Rule 1**: Never use `Cubit` — use `Bloc` exclusively (see Section 7)
-> - **Rule 2**: Constructor injection only — never instantiate or resolve repositories inside BLoC (see Section 7)
-> - **Rule 4**: Sealed classes + Equatable for all states and events — see `state-design.md` and `event-design.md`
-> - **Rule 5**: Always declare explicit transformers on every `on<>` registration — see `transformer-strategies.md`
+> CLAUDE.md Rules 1, 2, 4, 5 apply throughout this file. See CLAUDE.md for full text.
 
 ---
 

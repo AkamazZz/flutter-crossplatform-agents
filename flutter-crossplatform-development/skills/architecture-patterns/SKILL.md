@@ -67,17 +67,6 @@ code. Multiple references may apply — a new feature setup needs all three.
 | Data sources | Injected via constructor; one responsibility each |
 | Exceptions | Translate to domain exceptions at the repository boundary |
 
-## Global Rules Embedded in This Skill
-
-**Global Rule 2 — Constructor injection only**
-All dependencies must be provided through constructors. Service locators (`GetIt`, `injectable`,
-`ComponentHolder`, any global singleton registry) are forbidden everywhere in the codebase.
-Flag any use of `getIt<>()`, `locator<>()`, or `sl<>()` immediately.
-
-**Global Rule 3 — No DTO exposure to BLoC**
-DTOs are a Data layer implementation detail. Repository implementations must map DTOs to domain
-entities before returning. BLoC and UI code must never import or reference a DTO class.
-
 ## Anti-Patterns — Flag Immediately
 
 1. **Circular dependencies** between packages or layers (e.g., domain importing data).

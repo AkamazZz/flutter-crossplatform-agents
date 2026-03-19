@@ -44,3 +44,57 @@ If a widget doesn't manage ephemeral local state (no `AnimationController`, no `
 ## Rule 10 — `RepaintBoundary` for animated content, never `setState` for CustomPainter
 
 Wrap every independently animated widget in `RepaintBoundary` to prevent its repaint from propagating to siblings. Pass `AnimationController` to `CustomPainter`'s `repaint:` parameter — `setState` in an animation listener rebuilds the entire widget subtree and is always wrong.
+
+## Rule 11 — No `freezed` for BLoC states or events
+
+BLoC states and events use hand-written sealed class hierarchies (Rule 4). `freezed` adds a code-generation dependency without benefit here. `freezed` is acceptable for complex DTOs or value objects outside the BLoC layer.
+
+## Rule 12 — No `compute()`, use `Isolate.run()`
+
+`compute()` is deprecated. Use `Isolate.run()` directly for CPU-bound offloading.
+
+## Rule 13 — No `injectable`
+
+`injectable` relies on `get_it` service locator, violating Rule 2. Use Pure DI with `CompositionRoot` instead.
+
+---
+
+## Directory Structure Convention
+
+```
+packages/
+  domain/[feature]/lib/
+    entities/[feature]_entity.dart
+    repositories/[feature]_repository.dart
+
+  data/[feature]/lib/
+    repositories/[feature]_repository_impl.dart
+    sources/
+      remote/[feature]_api_client.dart
+      local/[feature]_local_storage.dart
+    models/[feature]_dto.dart
+    mappers/[feature]_mapper.dart
+
+lib/
+  features/
+    [feature]/
+      bloc/[feature]_bloc.dart
+      view/
+        screens/[feature]_screen.dart
+        widgets/[feature]_header.dart
+```
+
+## Flag On Sight
+
+These patterns must be flagged and corrected immediately in any code:
+
+- `getIt<>()`, `locator<>()`, `sl<>()`, `GetIt.instance`, `ServiceLocator.of()`
+- `Cubit` in production code
+- `on<Event>(handler)` without explicit `transformer:` parameter
+- DTO class imported in BLoC or domain layer
+- `Colors.red`, `Color(0xFF...)`, `TextStyle(fontSize: ...)` — hardcoded visual values
+- `Hive`, `hive_flutter` in dependencies
+- `freezed` on BLoC state or event classes
+- `injectable` or `@injectable` annotations
+- `compute()` calls — use `Isolate.run()`
+- `dart:html` — use `dart:js_interop` + `package:web`

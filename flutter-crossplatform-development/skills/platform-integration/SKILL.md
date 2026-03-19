@@ -43,30 +43,6 @@ The platform channel bridge is asynchronous: calls from Dart are serialized with
 | `dart:ffi` | Synchronous native library calls | Dart ↔ C ABI | Image processing, crypto, SQLite |
 | `dart:js_interop` | Browser JS API access | Dart ↔ JavaScript | WebRTC, Web Storage, browser APIs |
 
-## Global Rules
-
-### Rule 2 — Constructor Injection for Native Abstractions
-
-Never hard-code a concrete platform implementation inside business logic. Define an abstract interface in Dart and inject the platform-specific implementation at the composition root (e.g., `main.dart` or a DI container).
-
-```dart
-// Good: abstract interface defined in domain layer
-abstract interface class BiometricAuthService {
-  Future<bool> authenticate({required String reason});
-}
-
-// Platform implementation injected from outside
-class MyFeatureBloc {
-  MyFeatureBloc({required BiometricAuthService auth}) : _auth = auth;
-  final BiometricAuthService _auth;
-}
-
-// In main.dart
-final bloc = MyFeatureBloc(auth: LocalAuthBiometricService());
-```
-
-This keeps business logic testable with fakes and makes swapping implementations (e.g., for tests or new platforms) trivial.
-
 ## Anti-Patterns
 
 **Calling platform channels on background isolates without setup.**

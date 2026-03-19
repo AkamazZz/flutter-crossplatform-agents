@@ -112,6 +112,3 @@ final authenticated = await auth.authenticate(
 - **No token expiry or rotation** — long-lived tokens that never rotate are a persistent breach risk; implement access + refresh token patterns with short access token lifetimes
 - **Obfuscation as the only protection** — obfuscation raises the bar but is not encryption; combine it with proper key management, certificate pinning, and secure storage
 
----
-
-> **Global Rule 6:** Use `flutter_secure_storage` (not `shared_preferences`) for any sensitive data — tokens, credentials, encryption keys, or PII. SharedPreferences stores data as unencrypted XML/JSON files accessible without root on many Android devices. SecureStorage uses the platform keychain (iOS) and EncryptedSharedPreferences backed by Android KeyStore.

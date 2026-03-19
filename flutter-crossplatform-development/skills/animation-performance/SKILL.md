@@ -52,35 +52,6 @@ Multiple references may apply — e.g. a shader-driven CustomPainter needs both
 | Tickers | Custom `Ticker` for precise frame control with lower overhead |
 | RenderObject updates | `markNeedsPaint()` — never `setState` |
 
-## Global Rule 10 — RepaintBoundary & CustomPainter
-
-Always wrap `CustomPaint` in a `RepaintBoundary`. Pass the `AnimationController` (or any
-`Listenable`) to the `repaint:` parameter of `CustomPainter`. **Never** drive a `CustomPainter`
-with `setState` — it rebuilds the entire widget tree every frame.
-
-```dart
-// ✅ CORRECT
-RepaintBoundary(
-  child: CustomPaint(
-    painter: MyAnimatedPainter(animation: _controller),
-  ),
-)
-
-class MyAnimatedPainter extends CustomPainter {
-  MyAnimatedPainter({required this.animation}) : super(repaint: animation);
-  final Animation<double> animation;
-
-  @override
-  void paint(Canvas canvas, Size size) { /* use animation.value */ }
-
-  @override
-  bool shouldRepaint(MyAnimatedPainter old) => old.animation != animation;
-}
-
-// ❌ WRONG — setState drives the entire widget tree
-_controller.addListener(() { setState(() {}); });
-```
-
 ## Common Pitfalls
 
 1. **`setState` inside an animation listener** — rebuilds the entire widget tree every frame; use `AnimatedBuilder` or the `repaint:` parameter instead.
