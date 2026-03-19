@@ -35,11 +35,9 @@ Source Code
 
 ## Reference Documents
 
-| Document | Contents | When to Use |
-|---|---|---|
-| [flavors-environments.md](references/flavors-environments.md) | Flutter flavors, --dart-define, per-flavor bundle IDs/icons, Android productFlavors, iOS schemes | Setting up dev/staging/prod environments |
-| [cicd-pipelines.md](references/cicd-pipelines.md) | GitHub Actions YAML, Codemagic config, caching, versioning, branch strategy | Configuring automated build and deploy pipelines |
-| [app-store-deployment.md](references/app-store-deployment.md) | iOS provisioning/certificates/TestFlight, Google Play tracks, web hosting, desktop packaging | Submitting to app stores and hosting platforms |
+- [flavors-environments.md](references/flavors-environments.md) — Flutter flavors, --dart-define, per-flavor bundle IDs/icons, Android productFlavors, iOS schemes; consult when setting up environments
+- [cicd-pipelines.md](references/cicd-pipelines.md) — GitHub Actions YAML, Codemagic config, caching, versioning, branch strategy; consult when configuring pipelines
+- [app-store-deployment.md](references/app-store-deployment.md) — iOS provisioning/certificates/TestFlight, Google Play tracks, web hosting, desktop packaging; consult when submitting to stores
 
 ## Quick Reference
 

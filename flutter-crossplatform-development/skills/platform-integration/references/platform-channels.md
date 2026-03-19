@@ -192,12 +192,10 @@ _channel.setMessageHandler((message) async {
 
 ## Codec Selection
 
-| Codec | Supported Types | Notes |
-|---|---|---|
-| `StandardMessageCodec` (default) | `null`, `bool`, `int`, `double`, `String`, `Uint8List`, `List`, `Map` | Fast binary format; no custom classes |
-| `JSONMessageCodec` | Any JSON-serializable structure | Slower; useful for arbitrary nested objects |
-| `StringCodec` | `String` only | Simplest option for plain text |
-| Custom `MessageCodec<T>` | Arbitrary | Implement `encodeMessage` / `decodeMessage` |
+- `StandardMessageCodec` (default) — supports `null`, `bool`, `int`, `double`, `String`, `Uint8List`, `List`, `Map`; fast binary format, no custom classes
+- `JSONMessageCodec` — any JSON-serializable structure; slower, useful for arbitrary nested objects
+- `StringCodec` — `String` only; simplest option for plain text
+- Custom `MessageCodec<T>` — arbitrary types; implement `encodeMessage` / `decodeMessage`
 
 Prefer `StandardMessageCodec` unless you need types it cannot represent.
 

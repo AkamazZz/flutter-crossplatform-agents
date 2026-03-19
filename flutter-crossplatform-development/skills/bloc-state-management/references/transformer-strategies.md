@@ -336,17 +336,15 @@ Does the event start a long-running operation (async/stream)?
 
 Quick cheat-sheet:
 
-| Scenario | Transformer |
-|---|---|
-| Most event groups (default) | `sequential()` |
-| Load / refresh / paginate | `sequential()` |
-| Auth flow (login, logout, verify) | `sequential()` |
-| CRUD (create, update, delete) | `sequential()` |
-| Login button, purchase, game jump | `droppable()` |
-| Aggregate stats fetch | `droppable()` |
-| Search input, autocomplete | `restartable()` |
-| Repository stream subscription | `restartable()` |
-| Real-time filter / debounce | `restartable()` |
+- Most event groups (default) → `sequential()`
+- Load / refresh / paginate → `sequential()`
+- Auth flow (login, logout, verify) → `sequential()`
+- CRUD (create, update, delete) → `sequential()`
+- Login button, purchase, game jump → `droppable()`
+- Aggregate stats fetch → `droppable()`
+- Search input, autocomplete → `restartable()`
+- Repository stream subscription → `restartable()`
+- Real-time filter / debounce → `restartable()`
 
 ---
 

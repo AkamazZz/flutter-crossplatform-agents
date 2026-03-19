@@ -47,10 +47,8 @@ try {
 
 ### Single-Subscription vs Broadcast
 
-| Type | Listeners | Use case |
-|------|-----------|----------|
-| Single-subscription | Exactly one | File reads, HTTP response bodies, most data pipelines |
-| Broadcast | Zero or more, concurrently | UI event streams, BLoC streams exposed to multiple widgets |
+- Single-subscription — exactly one listener; file reads, HTTP response bodies, most data pipelines
+- Broadcast — zero or more concurrent listeners; UI event streams, BLoC streams exposed to multiple widgets
 
 ```dart
 // Single-subscription (default)

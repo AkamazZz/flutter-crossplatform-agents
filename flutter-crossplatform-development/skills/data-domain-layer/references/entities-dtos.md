@@ -84,12 +84,10 @@ class UserProfile extends Equatable {
 
 ### Key Points
 
-| Rule | Detail |
-|---|---|
-| `Equatable` | Always extend it — never override `==` manually |
-| `copyWith` | Required on every entity so callers can produce modified copies |
-| Business logic | Light validation methods are allowed and encouraged |
-| No `@JsonSerializable` | Adding JSON annotations to an entity is a bug |
+- `Equatable` — always extend it; never override `==` manually
+- `copyWith` — required on every entity so callers can produce modified copies
+- Business logic — light validation methods are allowed and encouraged
+- No `@JsonSerializable` — adding JSON annotations to an entity is a bug
 
 ---
 
@@ -122,12 +120,10 @@ abstract interface class IProfileRepository {
 
 ### Key Points
 
-| Rule | Detail |
-|---|---|
-| `abstract interface class` | Prefer `interface` keyword over plain `abstract class` |
-| Return types | Only entities and primitives (`String`, `bool`, `void`, `Stream<Entity>`) |
-| `@useResult` | Annotate every method whose return value callers must not ignore |
-| No `DioException` | The interface must be infra-agnostic — exceptions are domain exceptions |
+- `abstract interface class` — prefer `interface` keyword over plain `abstract class`
+- Return types — only entities and primitives (`String`, `bool`, `void`, `Stream<Entity>`)
+- `@useResult` — annotate every method whose return value callers must not ignore
+- No `DioException` — the interface must be infra-agnostic; exceptions are domain exceptions
 
 ---
 
@@ -172,13 +168,11 @@ class UserProfileDto {
 
 ### Key Points
 
-| Rule | Detail |
-|---|---|
-| `FieldRename.snake` | Eliminates manual `@JsonKey(name: '...')` on every field |
-| No `Equatable` needed | DTOs are not compared for equality in business logic |
-| No validation | Validation is the entity's job |
-| Nullable fields | Use `?` for optional JSON fields so `fromJson` doesn't throw on missing keys |
-| Separate class | Entity and DTO are always two separate files, two separate classes |
+- `FieldRename.snake` — eliminates manual `@JsonKey(name: '...')` on every field
+- No `Equatable` needed — DTOs are not compared for equality in business logic
+- No validation — validation is the entity's job
+- Nullable fields — use `?` for optional JSON fields so `fromJson` doesn't throw on missing keys
+- Separate class — entity and DTO are always two separate files, two separate classes
 
 ### pubspec Dependencies
 
@@ -201,11 +195,10 @@ dart run build_runner build --delete-conflicting-outputs
 
 ## Entities vs DTOs — at a Glance
 
-| Concern | Entity | DTO |
-|---|---|---|
-| Location | `domain/[feature]/entities/` | `data/[feature]/models/` |
-| Extends | `Equatable` | Nothing (or plain class) |
-| JSON annotations | Never | Always (`@JsonSerializable`) |
-| Business logic | Allowed | Never |
-| Exposed to BLoC | Yes | Never (Global Rule 3) |
-| `copyWith` | Required | Not needed |
+Entity vs DTO comparison:
+- Location — Entity: `domain/[feature]/entities/`; DTO: `data/[feature]/models/`
+- Extends — Entity: `Equatable`; DTO: nothing (plain class)
+- JSON annotations — Entity: never; DTO: always (`@JsonSerializable`)
+- Business logic — Entity: allowed; DTO: never
+- Exposed to BLoC — Entity: yes; DTO: never (Global Rule 3)
+- `copyWith` — Entity: required; DTO: not needed

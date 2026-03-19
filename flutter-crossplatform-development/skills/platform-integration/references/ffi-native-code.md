@@ -178,13 +178,11 @@ void setupCallback() {
 
 ## package:ffi Utilities
 
-| Utility | Purpose |
-|---|---|
-| `malloc` | Allocate / free native memory |
-| `calloc` | Zero-initialised allocation |
-| `StringUtf8Pointer` extension | `.toNativeUtf8()` / `toDartString()` |
-| `StringUtf16Pointer` extension | UTF-16 conversion (Windows APIs) |
-| `Arena` | Scoped allocator — frees all on exit |
+- `malloc` — allocate / free native memory
+- `calloc` — zero-initialised allocation
+- `StringUtf8Pointer` extension — `.toNativeUtf8()` / `toDartString()`
+- `StringUtf16Pointer` extension — UTF-16 conversion (Windows APIs)
+- `Arena` — scoped allocator; frees all on exit
 
 **Arena example**
 ```dart
@@ -205,14 +203,13 @@ void withArena() {
 
 ## Decision Guide: FFI vs Platform Channels
 
-| Factor | FFI | Platform Channels |
-|---|---|---|
-| Call style | Synchronous | Asynchronous |
-| Threading | Caller's thread (or native thread for callbacks) | Native main thread by default |
-| Overhead | Minimal (direct C call) | Serialization + thread hop |
-| Access to OS APIs | No (C ABI only) | Yes (full Swift/Kotlin/JS SDK) |
-| Web support | No (Wasm interop instead) | Partial (JS implementation required) |
-| Code generation | `ffigen` from C headers | Manual per platform |
-| Best for | C/C++ libraries, compute, SQLite, image processing | Camera, GPS, biometrics, platform UI |
+FFI vs Platform Channels:
+- Call style — FFI: synchronous; Channels: asynchronous
+- Threading — FFI: caller's thread (or native thread for callbacks); Channels: native main thread by default
+- Overhead — FFI: minimal (direct C call); Channels: serialization + thread hop
+- Access to OS APIs — FFI: no (C ABI only); Channels: yes (full Swift/Kotlin/JS SDK)
+- Web support — FFI: no (Wasm interop instead); Channels: partial (JS implementation required)
+- Code generation — FFI: `ffigen` from C headers; Channels: manual per platform
+- Best for — FFI: C/C++ libraries, compute, SQLite, image processing; Channels: camera, GPS, biometrics, platform UI
 
 Use FFI when you control or have C headers for the native library and need low latency. Use platform channels when you need to call platform SDK APIs that have no C header.

@@ -79,11 +79,9 @@ class AppShell extends StatelessWidget {
 
 The project uses three named breakpoints:
 
-| Name | Width | Typical layout change |
-|---|---|---|
-| Mobile | `< 600 dp` | Single column, bottom navigation bar |
-| Tablet | `600 – 1200 dp` | Two columns, navigation rail |
-| Desktop | `> 1200 dp` | Multi-column, permanent navigation drawer |
+- Mobile — `< 600 dp` — single column, bottom navigation bar
+- Tablet — `600 – 1200 dp` — two columns, navigation rail
+- Desktop — `> 1200 dp` — multi-column, permanent navigation drawer
 
 Centralise breakpoints in a constants file to avoid magic numbers:
 

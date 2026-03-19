@@ -41,13 +41,11 @@ Directory structure: see CLAUDE.md — Directory Structure Convention.
 
 ## Reference Files — Read Before Answering
 
-| Topic | Reference file | When to read |
-|---|---|---|
-| Widget composition | `references/widget-composition.md` | Extracting build methods, const constructors, Key strategy, private widget naming |
-| BLoC widgets | `references/bloc-widgets.md` | BlocBuilder, BlocListener, BlocConsumer, context extensions, buildWhen/listenWhen |
-| Responsive & adaptive | `references/responsive-adaptive.md` | LayoutBuilder, MediaQuery, breakpoints, platform-adaptive widgets |
-| Navigation | `references/navigation.md` | go_router setup, route tree, deep linking, auth guards |
-| Theming & design system | `references/theming-design-system.md` | Theme.of(context), Material 3, dark/light mode, ThemeExtension |
+- `references/widget-composition.md` — extracting build methods, const constructors, Key strategy, private widget naming
+- `references/bloc-widgets.md` — BlocBuilder, BlocListener, BlocConsumer, context extensions, buildWhen/listenWhen
+- `references/responsive-adaptive.md` — LayoutBuilder, MediaQuery, breakpoints, platform-adaptive widgets
+- `references/navigation.md` — go_router setup, route tree, deep linking, auth guards
+- `references/theming-design-system.md` — Theme.of(context), Material 3, dark/light mode, ThemeExtension
 
 **Rule**: Always read the relevant reference(s) in full before writing View-layer code.
 Multiple references often apply — e.g. a new screen needs `bloc-widgets.md`,
@@ -55,17 +53,15 @@ Multiple references often apply — e.g. a new screen needs `bloc-widgets.md`,
 
 ## Quick Reference — View Layer Rules
 
-| Concern | Rule |
-|---|---|
-| Widget size | Small and focused; extract private widget classes (`_FeatureHeader`, `_FeatureListItem`) |
-| Statefulness | `StatelessWidget` by default; `StatefulWidget` only for ephemeral state (animations, text controllers) |
-| State rendering | `BlocBuilder` + `switch` expression on sealed states — exhaustive, no fallback `_` |
-| Side effects | `BlocListener` only — never trigger navigation or snackbars inside `builder` |
-| Both rendering + side effects | `BlocConsumer` |
-| Boilerplate | Context extensions for repeated `context.read<Bloc>().add(...)` calls |
-| Rebuild optimisation | `buildWhen` / `listenWhen` to gate unnecessary rebuilds |
-| Styling | `Theme.of(context)` always — never hardcode colours, text styles, or sizes |
-| Strings | Localisation classes only — never inline string literals visible to users |
+- Widget size — small and focused; extract private widget classes (`_FeatureHeader`, `_FeatureListItem`)
+- Statefulness — `StatelessWidget` by default; `StatefulWidget` only for ephemeral state (animations, text controllers)
+- State rendering — `BlocBuilder` + exhaustive `switch` on sealed states; no fallback `_`
+- Side effects — `BlocListener` only; never trigger navigation or snackbars inside `builder`
+- Both rendering + side effects — use `BlocConsumer`
+- Boilerplate — context extensions for repeated `context.read<Bloc>().add(...)` calls
+- Rebuild optimisation — `buildWhen` / `listenWhen` to gate unnecessary rebuilds
+- Styling — `Theme.of(context)` always; never hardcode colours, text styles, or sizes
+- Strings — localisation classes only; never inline string literals visible to users
 
 ## Key Anti-Patterns
 

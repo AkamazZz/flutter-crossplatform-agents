@@ -156,17 +156,15 @@ Profile on both backends if targeting Android broadly.
 
 ## Common Pitfalls — Severity Summary
 
-| Pitfall | Severity | Fix |
-|---|---|---|
-| `setState` inside animation listener | CRITICAL | Use `AnimatedBuilder` or `repaint:` param |
-| `AnimationController` not disposed | CRITICAL | `dispose()` in `State.dispose()` |
-| `new Paint()` inside `paint()` | HIGH | Define `Paint` as class field |
-| `Timer.periodic` instead of controller | CRITICAL | Use `AnimationController` with `vsync:` |
-| Widget tree mutation during animation | HIGH | Use `Opacity`/`FadeTransition` instead |
-| `shouldRepaint` always returns `true` | HIGH | Compare old/new inputs |
-| No `RepaintBoundary` around CustomPaint | MEDIUM | Wrap with `RepaintBoundary` |
-| Per-item draw calls in loop | MEDIUM | Batch with `drawPoints`/`drawAtlas` |
-| `saveLayer` for simple transforms | MEDIUM | Use `save`/`restore` instead |
-| RenderObject listener not removed in `detach` | CRITICAL | Remove in `detach()` override |
-| Shader loaded inside `paint()` | CRITICAL | Load once in `initState`/`FutureBuilder` |
-| Animating `Padding`/`Container` size | HIGH | Use `Transform` or `SizedBox` transitions |
+- `setState` inside animation listener — **CRITICAL** — use `AnimatedBuilder` or `repaint:` param
+- `AnimationController` not disposed — **CRITICAL** — `dispose()` in `State.dispose()`
+- `new Paint()` inside `paint()` — **HIGH** — define `Paint` as class field
+- `Timer.periodic` instead of controller — **CRITICAL** — use `AnimationController` with `vsync:`
+- Widget tree mutation during animation — **HIGH** — use `Opacity`/`FadeTransition` instead
+- `shouldRepaint` always returns `true` — **HIGH** — compare old/new inputs
+- No `RepaintBoundary` around CustomPaint — **MEDIUM** — wrap with `RepaintBoundary`
+- Per-item draw calls in loop — **MEDIUM** — batch with `drawPoints`/`drawAtlas`
+- `saveLayer` for simple transforms — **MEDIUM** — use `save`/`restore` instead
+- RenderObject listener not removed in `detach` — **CRITICAL** — remove in `detach()` override
+- Shader loaded inside `paint()` — **CRITICAL** — load once in `initState`/`FutureBuilder`
+- Animating `Padding`/`Container` size — **HIGH** — use `Transform` or `SizedBox` transitions

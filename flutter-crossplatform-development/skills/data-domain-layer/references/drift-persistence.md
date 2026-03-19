@@ -104,14 +104,12 @@ class CachedOrders extends Table {
 
 ### Column Builders Quick Reference
 
-| Dart type | Builder | Example |
-|---|---|---|
-| `String` | `text()` | `text().nullable()()` |
-| `int` | `integer()` | `integer().withDefault(const Constant(0))()` |
-| `double` | `real()` | `real()()` |
-| `bool` | `boolean()` | `boolean().withDefault(const Constant(false))()` |
-| `DateTime` | `dateTime()` | `dateTime()()` |
-| `Uint8List` | `blob()` | `blob()()` |
+- `String` → `text()` — e.g. `text().nullable()()`
+- `int` → `integer()` — e.g. `integer().withDefault(const Constant(0))()`
+- `double` → `real()` — e.g. `real()()`
+- `bool` → `boolean()` — e.g. `boolean().withDefault(const Constant(false))()`
+- `DateTime` → `dateTime()` — e.g. `dateTime()()`
+- `Uint8List` → `blob()` — e.g. `blob()()`
 
 ---
 
@@ -311,17 +309,15 @@ Never store tokens in SharedPreferences — they are written to disk in plain te
 
 ## 9. Decision Guide: Drift vs SharedPreferences vs SecureStorage
 
-| Use case | Tool |
-|---|---|
-| Structured relational data (users, orders, products) | **Drift** |
-| Reactive data that the UI streams | **Drift** (`watch()`) |
-| Offline queue of pending requests | **Drift** |
-| Simple flags and user preferences | **SharedPreferences** |
-| Last-selected tab, theme choice, locale | **SharedPreferences** |
-| Access tokens, refresh tokens | **flutter_secure_storage** |
-| PINs, passwords, private keys | **flutter_secure_storage** |
-| Any data that must survive process restart but not be sensitive | **SharedPreferences** or **Drift** |
-| Any sensitive credential | **flutter_secure_storage** only |
+- Structured relational data (users, orders, products) → **Drift**
+- Reactive data that the UI streams → **Drift** (`watch()`)
+- Offline queue of pending requests → **Drift**
+- Simple flags and user preferences → **SharedPreferences**
+- Last-selected tab, theme choice, locale → **SharedPreferences**
+- Access tokens, refresh tokens → **flutter_secure_storage**
+- PINs, passwords, private keys → **flutter_secure_storage**
+- Data that must survive process restart but not be sensitive → **SharedPreferences** or **Drift**
+- Any sensitive credential → **flutter_secure_storage** only
 
 ---
 

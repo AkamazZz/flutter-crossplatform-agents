@@ -293,16 +293,14 @@ jobs:
 
 ## When Integration Tests vs Widget Tests
 
-| Scenario                                                       | Use                   |
-|----------------------------------------------------------------|-----------------------|
-| Verifying a BLoC emits the correct states                      | Unit test             |
-| A single widget renders its sealed states                      | Widget test           |
-| A screen navigates correctly between routes (mocked BLoC)      | Widget test           |
-| An end-to-end flow across multiple screens with real data      | Integration test      |
-| Native permission dialog must be accepted                      | Integration (Patrol)  |
-| Push notification opens the correct screen                     | Integration (Patrol)  |
-| Camera / biometrics / Bluetooth interaction                    | Integration (Patrol)  |
-| Visual regression of a design system component                 | Golden file test      |
+- Verifying a BLoC emits the correct states → Unit test
+- A single widget renders its sealed states → Widget test
+- A screen navigates correctly between routes (mocked BLoC) → Widget test
+- An end-to-end flow across multiple screens with real data → Integration test
+- Native permission dialog must be accepted → Integration (Patrol)
+- Push notification opens the correct screen → Integration (Patrol)
+- Camera / biometrics / Bluetooth interaction → Integration (Patrol)
+- Visual regression of a design system component → Golden file test
 
 Integration tests are slow and fragile. Write them only for critical user journeys and native interactions that cannot be simulated in widget tests. For everything else, prefer unit and widget tests.
 

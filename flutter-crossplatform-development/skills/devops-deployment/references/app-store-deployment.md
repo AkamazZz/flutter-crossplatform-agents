@@ -11,18 +11,14 @@ Deploying Flutter apps to production stores requires platform-specific signing, 
 
 ### Certificate Types
 
-| Certificate | Purpose |
-|---|---|
-| Apple Development | Local device testing |
-| Apple Distribution | TestFlight + App Store submission |
+- Apple Development — local device testing
+- Apple Distribution — TestFlight + App Store submission
 
 ### Provisioning Profile Types
 
-| Profile | Purpose |
-|---|---|
-| Development | Run on registered devices |
-| Ad Hoc | Distribute to up to 100 devices |
-| App Store | TestFlight + App Store submission |
+- Development — run on registered devices
+- Ad Hoc — distribute to up to 100 devices
+- App Store — TestFlight + App Store submission
 
 ### Setup Steps
 
@@ -169,12 +165,10 @@ flutter build appbundle \
 
 ### Play Console Release Tracks
 
-| Track | Audience | Use for |
-|---|---|---|
-| Internal testing | Up to 100 testers, instant publish | Smoke testing every build |
-| Closed testing (Alpha) | Specific Google Groups or emails | QA team, select users |
-| Open testing (Beta) | Anyone who opts in | Public beta, wider feedback |
-| Production | All users | Full release |
+- Internal testing — up to 100 testers, instant publish; smoke testing every build
+- Closed testing (Alpha) — specific Google Groups or emails; QA team, select users
+- Open testing (Beta) — anyone who opts in; public beta, wider feedback
+- Production — all users; full release
 
 ### Staged Rollout
 
@@ -343,8 +337,6 @@ Distribute via direct download, Snap Store (`snapcraft`), or Flathub (`flatpak-b
 
 ### Desktop Distribution Summary
 
-| Platform | Format | Signing | Store |
-|---|---|---|---|
-| macOS | DMG / PKG | Developer ID + Notarization | Mac App Store or direct |
-| Windows | MSIX / EXE | Authenticode certificate | Microsoft Store or direct |
-| Linux | AppImage / Flatpak / Snap | GPG (optional) | Flathub / Snap Store / direct |
+- macOS — DMG / PKG — Developer ID + Notarization — Mac App Store or direct
+- Windows — MSIX / EXE — Authenticode certificate — Microsoft Store or direct
+- Linux — AppImage / Flatpak / Snap — GPG (optional) — Flathub / Snap Store / direct

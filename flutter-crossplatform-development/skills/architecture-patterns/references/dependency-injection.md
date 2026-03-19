@@ -309,13 +309,12 @@ class WeatherScreen extends StatelessWidget {
 
 ## DI vs Service Locator — Why Service Locator is Forbidden
 
-| Concern | Pure DI (this project) | Service Locator (forbidden) |
-|---|---|---|
-| Dependency visibility | Explicit — declared in constructor | Hidden — looked up inside method bodies |
-| Testability | Mock by passing a different constructor argument | Requires re-registering globals before each test |
-| Coupling | Loose — classes don't know where deps come from | Tight — classes depend on the global registry |
-| Inversion of Control | Respected — deps are pushed in | Violated — classes pull deps out |
-| Compile-time safety | Yes — missing deps are compile errors | No — missing registrations fail at runtime |
+Pure DI (this project) vs Service Locator (forbidden):
+- Dependency visibility — Pure DI: explicit, declared in constructor; Service Locator: hidden, looked up inside method bodies
+- Testability — Pure DI: mock by passing a different constructor argument; Service Locator: requires re-registering globals before each test
+- Coupling — Pure DI: loose, classes don't know where deps come from; Service Locator: tight, classes depend on the global registry
+- Inversion of Control — Pure DI: respected, deps are pushed in; Service Locator: violated, classes pull deps out
+- Compile-time safety — Pure DI: yes, missing deps are compile errors; Service Locator: no, missing registrations fail at runtime
 
 Common service locator patterns that are **forbidden**:
 

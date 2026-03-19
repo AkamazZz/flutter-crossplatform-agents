@@ -21,27 +21,23 @@ Widget Layer ↔ BLoC Layer ↔ Domain Layer ↔ Data Layer
 
 ## Reference Files — Read Before Answering
 
-| Topic | Reference file | When to read |
-|---|---|---|
-| Core BLoC rules | `references/bloc-core-rules.md` | Writing/reviewing any BLoC class, understanding architecture layers, file structure, anti-patterns |
-| Event design | `references/event-design.md` | Writing events, naming events, grouping events, using State Emitter mixin |
-| State design | `references/state-design.md` | Writing state hierarchies, Equatable props, state copy patterns, convenience getters |
-| Transformer strategies | `references/transformer-strategies.md` | Choosing sequential/droppable/restartable, stream subscriptions, preventing race conditions |
+- `references/bloc-core-rules.md` — BLoC class structure, architecture layers, file layout, anti-patterns; read before writing or reviewing any BLoC
+- `references/event-design.md` — event naming, grouping, State Emitter mixin; read when designing event hierarchies
+- `references/state-design.md` — sealed state hierarchies, Equatable props, copy patterns, convenience getters
+- `references/transformer-strategies.md` — sequential/droppable/restartable selection, stream subscriptions, race condition prevention
 
 **Rule**: Always read the relevant reference(s) in full before writing code for that layer.
 
 ## Quick Reference by Layer
 
-| Concern | Rule |
-|---|---|
-| State shape | Sealed class + Equatable, immutable, no logic |
-| Event shape | Sealed class, action-oriented names (Load not Loaded) |
-| Transformers | Always explicit; default = `sequential()` |
-| Repositories | Constructor injection only, never `getIt` inside BLoC |
-| BLoC↔BLoC | Never — share via repository streams using `emit.forEach`/`emit.onEach` |
-| Cubit | Never, except streams or learning phase |
-| Public methods | None — only `add()`, `stream`, `state` |
-| Flutter imports | Not allowed in BLoC layer (except `foundation`) |
+- State shape — sealed class + Equatable, immutable, no logic
+- Event shape — sealed class, action-oriented names (Load not Loaded)
+- Transformers — always explicit; default = `sequential()`
+- Repositories — constructor injection only; never `getIt` inside BLoC
+- BLoC↔BLoC — never; share via repository streams using `emit.forEach`/`emit.onEach`
+- Cubit — never, except pure stream forwarding or explicit learning context
+- Public methods — none; only `add()`, `stream`, `state`
+- Flutter imports — not allowed in BLoC layer except `foundation`
 
 ## Key Anti-Patterns to Flag Immediately
 

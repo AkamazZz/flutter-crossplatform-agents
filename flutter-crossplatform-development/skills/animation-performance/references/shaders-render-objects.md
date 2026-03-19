@@ -248,27 +248,23 @@ class ShaderPainter extends CustomPainter {
 
 ### Shader Uniforms
 
-| Uniform type (GLSL) | Dart setter |
-|---|---|
-| `uniform float` | `shader.setFloat(index, value)` |
-| `uniform vec2` | `shader.setFloat(i, x); shader.setFloat(i+1, y)` |
-| `uniform sampler2D` | `shader.setImageSampler(index, image)` |
+- `uniform float` → `shader.setFloat(index, value)`
+- `uniform vec2` → `shader.setFloat(i, x); shader.setFloat(i+1, y)`
+- `uniform sampler2D` → `shader.setImageSampler(index, image)`
 
 Uniforms are indexed in declaration order. A `vec2` occupies two consecutive float slots.
 
 ## Decision Guide — Which Technique to Use
 
-| Scenario | Recommended technique |
-|---|---|
-| Simple property animation (size, colour, opacity) | Implicit widget (`AnimatedContainer`, `AnimatedOpacity`) |
-| Multi-property or sequenced animation | `AnimationController` + `Tween` + `AnimatedBuilder` |
-| Custom drawn animation (shapes, paths, particles) | `CustomPainter` with `repaint:` parameter |
-| Many particles or sprites per frame | `CustomPainter` + `drawAtlas` / `drawPoints` |
-| Per-pixel GPU effect (noise, distortion, colour grade) | Fragment shader + `CustomPainter` |
-| Precise frame timing / physics simulation | Custom `Ticker` |
-| High-frequency animation bypassing build phase | `LeafRenderObjectWidget` + `markNeedsPaint()` |
-| Character or motion-graphic animation | Rive (state machines) or Lottie (JSON playback) |
-| Shared element between routes | `Hero` widget |
+- Simple property animation (size, colour, opacity) → implicit widget (`AnimatedContainer`, `AnimatedOpacity`)
+- Multi-property or sequenced animation → `AnimationController` + `Tween` + `AnimatedBuilder`
+- Custom drawn animation (shapes, paths, particles) → `CustomPainter` with `repaint:` parameter
+- Many particles or sprites per frame → `CustomPainter` + `drawAtlas` / `drawPoints`
+- Per-pixel GPU effect (noise, distortion, colour grade) → Fragment shader + `CustomPainter`
+- Precise frame timing / physics simulation → Custom `Ticker`
+- High-frequency animation bypassing build phase → `LeafRenderObjectWidget` + `markNeedsPaint()`
+- Character or motion-graphic animation → Rive (state machines) or Lottie (JSON playback)
+- Shared element between routes → `Hero` widget
 
 **General escalation order**: implicit → explicit → CustomPainter → RenderObject/shader.
 Reach for lower levels only when profiling confirms the higher-level approach is the

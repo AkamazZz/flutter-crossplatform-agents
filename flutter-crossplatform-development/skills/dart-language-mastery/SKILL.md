@@ -17,35 +17,29 @@ These features are not isolated conveniences — they form the architectural bac
 
 ## Reference Files
 
-| File | Topics | When to Consult |
-|------|--------|-----------------|
-| [patterns-records-sealed.md](references/patterns-records-sealed.md) | Pattern matching, destructuring, records, sealed classes, guard clauses, logical/relational patterns | Modeling states, events, results; exhaustive switching; multiple return values |
-| [async-isolates.md](references/async-isolates.md) | Future, Stream, StreamController, Isolate.run(), Zone, Completer, stream transformers | Any async code, background work, stream pipelines, callback bridging |
-| [code-generation.md](references/code-generation.md) | build_runner, json_serializable, freezed, go_router gen, injectable (anti-pattern), custom builders | Setting up or running code gen, serialization, routing generation |
+- [patterns-records-sealed.md](references/patterns-records-sealed.md) — pattern matching, destructuring, records, sealed classes, guard clauses; consult when modeling states, events, results, or writing exhaustive switches
+- [async-isolates.md](references/async-isolates.md) — Future, Stream, StreamController, Isolate.run(), Zone, Completer, stream transformers; consult for any async code, background work, or stream pipelines
+- [code-generation.md](references/code-generation.md) — build_runner, json_serializable, freezed, go_router gen, injectable (anti-pattern); consult when setting up code gen or serialization
 
 ## Quick Reference
 
-| Feature | Syntax | When to Use |
-|---------|--------|-------------|
-| Switch expression | `result = switch (x) { pattern => value, ... }` | Replace if/else chains; exhaustive over sealed types |
-| Record literal | `(name, age)` or `(name: 'Ada', age: 36)` | Return multiple values without defining a class |
-| Record destructuring | `final (name, age) = record;` | Unpack record fields inline |
-| Object pattern | `case User(:final name, :final age)` | Destructure class fields in switch arms |
-| Guard clause | `case Foo(:final x) when x > 0` | Add a boolean condition to a pattern arm |
-| Sealed class | `sealed class State {}` + subclasses | Model closed sets of states/events with exhaustiveness |
-| Isolate.run() | `await Isolate.run(() => heavyWork())` | Offload CPU-intensive work off the main thread |
-| Stream broadcast | `controller.stream` (broadcast) | Multiple listeners on the same stream |
-| Completer | `final c = Completer<T>(); ... c.complete(value);` | Bridge a callback API into a Future |
-| asyncMap | `stream.asyncMap((e) async => ...)` | Async transformation in a stream pipeline |
+- `switch` expression — `result = switch (x) { pattern => value, ... }` — exhaustive over sealed types, replaces if/else chains
+- Record literal — `(name, age)` or `(name: 'Ada', age: 36)` — return multiple values without a class
+- Record destructuring — `final (name, age) = record;` — unpack record fields inline
+- Object pattern — `case User(:final name, :final age)` — destructure class fields in switch arms
+- Guard clause — `case Foo(:final x) when x > 0` — add a boolean condition to a pattern arm
+- Sealed class — `sealed class State {}` + subclasses — model closed sets of states/events with exhaustiveness
+- `Isolate.run()` — `await Isolate.run(() => heavyWork())` — offload CPU-bound work off the main thread
+- Broadcast stream — `StreamController.broadcast()` — allows multiple concurrent listeners
+- `Completer` — `final c = Completer<T>(); c.complete(value);` — bridges a callback API into a Future
+- `asyncMap` — `stream.asyncMap((e) async => ...)` — async transformation in a stream pipeline
 
 ## Type System
 
-| Feature | Syntax | When to Use |
-|---------|--------|-------------|
-| Extension type | `extension type UserId(String value) implements String` | Zero-cost wrappers for typed IDs, units of measure |
-| Extension method | `extension on String { ... }` | Augment existing types without subclassing |
-| Bounded generics | `T extends Equatable` | Constrain type parameters to required capabilities |
-| Covariant override | `covariant ChildType param` | Narrow parameter types in method overrides |
+- `extension type` — `extension type UserId(String value) implements String` — zero-cost wrappers for typed IDs or units of measure
+- Extension methods — `extension on String { ... }` — augment existing types without subclassing
+- Bounded generics — `T extends Equatable` — constrain type parameters to required capabilities
+- `covariant` override — narrow parameter types in method overrides
 
 **Records vs. classes**: Use records for temporary groupings (`(int count, String label)` return values). Use classes for domain concepts with identity, equality, and methods.
 

@@ -29,11 +29,9 @@ never on concrete Data implementations.
 
 ## Reference Files — Read Before Answering
 
-| Topic | Reference file | When to read |
-|---|---|---|
-| Clean Architecture | `references/clean-architecture.md` | Layer separation, package structure, cross-layer communication, what belongs where |
-| Feature-Driven Development | `references/feature-driven-development.md` | Feature-first organization, shared kernel, Melos monorepo, feature containers |
-| Dependency Injection | `references/dependency-injection.md` | CompositionRoot, AppScope, constructor injection, DI vs service locator |
+- `references/clean-architecture.md` — layer separation, package structure, cross-layer communication; consult for what belongs in each layer
+- `references/feature-driven-development.md` — feature-first organization, shared kernel, Melos monorepo, feature containers
+- `references/dependency-injection.md` — CompositionRoot, AppScope, constructor injection, DI vs service locator
 
 **Rule**: Always read the relevant reference(s) in full before writing or reviewing architectural
 code. Multiple references may apply — a new feature setup needs all three.
@@ -42,30 +40,24 @@ code. Multiple references may apply — a new feature setup needs all three.
 
 ### Presentation Layer
 
-| Concern | Rule |
-|---|---|
-| Widgets | Stateless by default; no business logic |
-| BLoC | Constructor-injected repositories only; no service locator |
-| Navigation | Defined at feature boundary; no cross-feature widget imports |
-| DI access | `context.di` / `context.featureXDependencies` extensions |
+- Widgets — stateless by default; no business logic
+- BLoC — constructor-injected repositories only; no service locator
+- Navigation — defined at feature boundary; no cross-feature widget imports
+- DI access — `context.di` / `context.featureXDependencies` extensions
 
 ### Domain Layer
 
-| Concern | Rule |
-|---|---|
-| Entities | Pure Dart, Equatable, zero external dependencies |
-| Repository interfaces | Abstract classes only; return entities or primitives |
-| Use cases / interactors | Optional; pure Dart, injected repositories |
-| Forbidden imports | Flutter SDK, Dio, json_serializable, Data layer |
+- Entities — pure Dart, Equatable, zero external dependencies
+- Repository interfaces — abstract classes only; return entities or primitives
+- Use cases / interactors — optional; pure Dart, injected repositories
+- Forbidden imports — Flutter SDK, Dio, json_serializable, Data layer
 
 ### Data Layer
 
-| Concern | Rule |
-|---|---|
-| Repository impl | Implements domain interface; maps DTOs to entities at boundary |
-| DTOs | `json_serializable`; never exposed to BLoC or domain |
-| Data sources | Injected via constructor; one responsibility each |
-| Exceptions | Translate to domain exceptions at the repository boundary |
+- Repository impl — implements domain interface; maps DTOs to entities at boundary
+- DTOs — `json_serializable`; never exposed to BLoC or domain
+- Data sources — injected via constructor; one responsibility each
+- Exceptions — translate to domain exceptions at the repository boundary
 
 ## Anti-Patterns — Flag Immediately
 

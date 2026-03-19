@@ -77,17 +77,15 @@ abstract final class AppTheme {
 
 Key colour roles and their intended use:
 
-| Role | Use |
-|---|---|
-| `primary` | Primary action buttons, active icons, key interactive elements |
-| `onPrimary` | Content (text/icons) on top of `primary` |
-| `secondary` | Supporting interactive elements |
-| `surface` | Card, sheet, menu backgrounds |
-| `onSurface` | Standard body text on surfaces |
-| `error` | Error states, destructive actions |
-| `onError` | Text/icons on `error` colour |
-| `outline` | Borders, dividers |
-| `inverseSurface` | Snackbar, tooltip backgrounds |
+- `primary` — primary action buttons, active icons, key interactive elements
+- `onPrimary` — content (text/icons) on top of `primary`
+- `secondary` — supporting interactive elements
+- `surface` — card, sheet, menu backgrounds
+- `onSurface` — standard body text on surfaces
+- `error` — error states, destructive actions
+- `onError` — text/icons on `error` colour
+- `outline` — borders, dividers
+- `inverseSurface` — snackbar, tooltip backgrounds
 
 ### Dynamic Theming (Android 12+)
 
@@ -122,13 +120,11 @@ static ThemeData lightFrom(ColorScheme? dynamic) => ThemeData(
 
 Use the named text roles. Never create free-standing `TextStyle` objects in widgets.
 
-| Role | Usage |
-|---|---|
-| `displayLarge/Medium/Small` | Hero numbers, splash screens |
-| `headlineLarge/Medium/Small` | Screen titles, section headers |
-| `titleLarge/Medium/Small` | List item titles, app bar |
-| `bodyLarge/Medium/Small` | Body copy, descriptions |
-| `labelLarge/Medium/Small` | Button labels, chips, captions |
+- `displayLarge/Medium/Small` — hero numbers, splash screens
+- `headlineLarge/Medium/Small` — screen titles, section headers
+- `titleLarge/Medium/Small` — list item titles, app bar
+- `bodyLarge/Medium/Small` — body copy, descriptions
+- `labelLarge/Medium/Small` — button labels, chips, captions
 
 ```dart
 // ✅ CORRECT

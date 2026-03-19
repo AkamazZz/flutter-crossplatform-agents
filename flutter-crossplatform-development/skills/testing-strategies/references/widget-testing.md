@@ -74,15 +74,13 @@ Use `MockBloc` (from `bloc_test`) to stub `state` and `stream` without implement
 
 ## Finders
 
-| Finder                         | When to use                                      |
-|-------------------------------|--------------------------------------------------|
-| `find.byType(MyWidget)`       | Assert a widget class is present                 |
-| `find.text('Hello')`          | Assert exact text appears                        |
-| `find.byKey(const Key('id'))` | Assert a widget with a semantic key is present   |
-| `find.byIcon(Icons.check)`    | Assert an icon is present                        |
-| `find.ancestor(...)`          | Scope a finder within a subtree                  |
-| `find.descendant(...)`        | Find a widget inside a specific ancestor         |
-| `find.bySemanticsLabel('...')` | Accessibility-oriented assertion               |
+- `find.byType(MyWidget)` — assert a widget class is present
+- `find.text('Hello')` — assert exact text appears
+- `find.byKey(const Key('id'))` — assert a widget with a semantic key is present
+- `find.byIcon(Icons.check)` — assert an icon is present
+- `find.ancestor(...)` — scope a finder within a subtree
+- `find.descendant(...)` — find a widget inside a specific ancestor
+- `find.bySemanticsLabel('...')` — accessibility-oriented assertion
 
 ```dart
 // Multiple matches
@@ -178,11 +176,9 @@ group('SearchPage sealed state rendering', () {
 
 ## `pump()` vs `pumpAndSettle()`
 
-| Method              | What it does                                                         | When to use                                           |
-|---------------------|----------------------------------------------------------------------|-------------------------------------------------------|
-| `pump()`            | Triggers exactly one frame                                           | After sync state changes; when controlling timing     |
-| `pump(Duration(…))` | Advances the clock by the given duration and triggers frames         | After async delays, timers, animations with known durations |
-| `pumpAndSettle()`   | Repeatedly pumps until no pending frames remain (max 100 by default) | After animations that must fully complete             |
+- `pump()` — triggers exactly one frame; use after sync state changes or when controlling timing
+- `pump(Duration(…))` — advances the clock by the given duration; use after async delays, timers, or animations with known durations
+- `pumpAndSettle()` — repeatedly pumps until no pending frames remain (max 100); use after animations that must fully complete
 
 `pumpAndSettle` will time out if a looping animation or an unresolved `Future` keeps scheduling frames. Prefer explicit `pump` when possible.
 

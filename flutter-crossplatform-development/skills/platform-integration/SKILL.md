@@ -27,21 +27,17 @@ The platform channel bridge is asynchronous: calls from Dart are serialized with
 
 ## Reference Files
 
-| File | Contents | Use When |
-|---|---|---|
-| [platform-channels.md](references/platform-channels.md) | MethodChannel, EventChannel, BasicMessageChannel, codec selection, error handling, testing | Calling native APIs or streaming native events |
-| [ffi-native-code.md](references/ffi-native-code.md) | DynamicLibrary, NativeFunction, ffigen, memory management, structs, callbacks | Binding to C/C++ libraries or performance-critical native code |
-| [platform-specific-features.md](references/platform-specific-features.md) | iOS, Android, Web, Desktop platform features; abstract interface pattern | Implementing features that differ per target platform |
+- [platform-channels.md](references/platform-channels.md) — MethodChannel, EventChannel, BasicMessageChannel, codec selection, error handling, testing; use when calling native APIs or streaming native events
+- [ffi-native-code.md](references/ffi-native-code.md) — DynamicLibrary, NativeFunction, ffigen, memory management, structs, callbacks; use when binding to C/C++ libraries
+- [platform-specific-features.md](references/platform-specific-features.md) — iOS, Android, Web, Desktop features and abstract interface pattern; use when implementing per-platform behavior
 
 ## Quick Reference
 
-| Channel Type | Use Case | Direction | Example |
-|---|---|---|---|
-| `MethodChannel` | One-shot request/response | Dart → Native (+ response) | Battery level, camera capture |
-| `EventChannel` | Continuous stream from native | Native → Dart (stream) | Accelerometer, GPS, Bluetooth scan |
-| `BasicMessageChannel` | Simple bidirectional messaging | Both directions | Lightweight key-value exchange |
-| `dart:ffi` | Synchronous native library calls | Dart ↔ C ABI | Image processing, crypto, SQLite |
-| `dart:js_interop` | Browser JS API access | Dart ↔ JavaScript | WebRTC, Web Storage, browser APIs |
+- `MethodChannel` — one-shot request/response, Dart → Native; battery level, camera capture
+- `EventChannel` — continuous stream from native to Dart; accelerometer, GPS, Bluetooth scan
+- `BasicMessageChannel` — simple bidirectional messaging; lightweight key-value exchange
+- `dart:ffi` — synchronous calls into C/C++ libraries; image processing, crypto, SQLite
+- `dart:js_interop` — browser JS API access; WebRTC, Web Storage, browser APIs
 
 ## Anti-Patterns
 

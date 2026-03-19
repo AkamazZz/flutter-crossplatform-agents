@@ -385,13 +385,11 @@ Future<void> updateProfile(UserProfile profile) async {
 
 ### Offline-First Checklist
 
-| | Rule |
-|---|---|
-| ✅ | Cache reads to Drift or SharedPreferences on successful network responses |
-| ✅ | Return cached data when the network is unavailable |
-| ✅ | Queue write operations that fail due to connectivity errors |
-| ✅ | Expose connectivity-specific domain exceptions (`code: 'NO_CONNECTION'`) |
-| ❌ | Never throw blindly on network errors — always check if cached data can satisfy the request first |
+✅ Cache reads to Drift or SharedPreferences on successful network responses
+✅ Return cached data when the network is unavailable
+✅ Queue write operations that fail due to connectivity errors
+✅ Expose connectivity-specific domain exceptions (`code: 'NO_CONNECTION'`)
+❌ Never throw blindly on network errors — always check if cached data can satisfy the request first
 
 ---
 

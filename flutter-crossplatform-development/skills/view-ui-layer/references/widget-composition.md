@@ -152,14 +152,12 @@ Benefits:
 **Rule (Global Rule 9)**: Default to `StatelessWidget`. Promote to `StatefulWidget` only
 when the widget itself owns ephemeral (transient, non-shared) state.
 
-| State type | Widget |
-|---|---|
-| BLoC-driven state (loading, data, error) | `StatelessWidget` + `BlocBuilder` |
-| Animation controller | `StatefulWidget` (or `AnimationWidget`) |
-| `TextEditingController` | `StatefulWidget` |
-| `FocusNode` | `StatefulWidget` |
-| Form validation feedback | `StatefulWidget` |
-| Scroll offset tracking | `StatefulWidget` or `ScrollController` in parent |
+- BLoC-driven state (loading, data, error) → `StatelessWidget` + `BlocBuilder`
+- Animation controller → `StatefulWidget` (or `AnimationWidget`)
+- `TextEditingController` → `StatefulWidget`
+- `FocusNode` → `StatefulWidget`
+- Form validation feedback → `StatefulWidget`
+- Scroll offset tracking → `StatefulWidget` or `ScrollController` in parent
 
 ```dart
 // ✅ CORRECT — ephemeral text controller warrants StatefulWidget
@@ -244,13 +242,11 @@ Rules:
 Keys help Flutter reconcile the widget tree when order or type changes. Use the correct
 key type for each scenario.
 
-| Key type | When to use |
-|---|---|
-| `ValueKey<T>` | List items with a stable domain identifier (e.g. `ValueKey(product.id)`) |
-| `ObjectKey` | List items where the whole object is the identity (e.g. `ObjectKey(address)`) |
-| `UniqueKey` | Force-recreate a widget on every build — use sparingly, breaks animations |
-| `GlobalKey` | Access `State` or `RenderObject` from outside the tree — avoid in most cases |
-| No key | Default for static, non-reordering widget trees |
+- `ValueKey<T>` — list items with a stable domain identifier (e.g. `ValueKey(product.id)`)
+- `ObjectKey` — list items where the whole object is the identity (e.g. `ObjectKey(address)`)
+- `UniqueKey` — force-recreate a widget on every build; use sparingly, breaks animations
+- `GlobalKey` — access `State` or `RenderObject` from outside the tree; avoid in most cases
+- No key — default for static, non-reordering widget trees
 
 ```dart
 // ✅ CORRECT — stable domain key for animated list
@@ -287,14 +283,12 @@ File-private widget classes (declared with `_`) follow this convention:
 _[FeatureName][Role]
 ```
 
-| Pattern | Example |
-|---|---|
-| `_[Feature]Header` | `_ProductHeader` |
-| `_[Feature]ListItem` | `_OrderListItem` |
-| `_[Feature]Actions` | `_ProfileActions` |
-| `_[Feature]EmptyState` | `_SearchEmptyState` |
-| `_[Feature]ErrorView` | `_CheckoutErrorView` |
-| `_[State]View` | `_LoadingView`, `_SuccessView`, `_ErrorView` |
+- `_[Feature]Header` — e.g. `_ProductHeader`
+- `_[Feature]ListItem` — e.g. `_OrderListItem`
+- `_[Feature]Actions` — e.g. `_ProfileActions`
+- `_[Feature]EmptyState` — e.g. `_SearchEmptyState`
+- `_[Feature]ErrorView` — e.g. `_CheckoutErrorView`
+- `_[State]View` — e.g. `_LoadingView`, `_SuccessView`, `_ErrorView`
 
 Rules:
 - Prefix with `_` when the widget is used only within the same file.

@@ -228,12 +228,10 @@ await expectLater(
 
 Ask these questions before running `--update-goldens`:
 
-| Question                                         | Answer → Action                                      |
-|--------------------------------------------------|------------------------------------------------------|
-| Did the designer intentionally change the UI?    | Yes → update goldens, attach before/after in PR      |
-| Did a dependency upgrade change rendering?       | Investigate → if correct, update with explanation    |
-| Did a refactor change layout unexpectedly?       | Regression → fix the code, do NOT update goldens     |
-| Is it a font/platform rendering noise difference?| Use platform pinning or per-platform goldens         |
+- Designer intentionally changed the UI → update goldens, attach before/after in PR
+- Dependency upgrade changed rendering → investigate; if correct, update with explanation
+- Refactor changed layout unexpectedly → regression; fix the code, do NOT update goldens
+- Font/platform rendering noise difference → use platform pinning or per-platform goldens
 
 Never run `--update-goldens` to silence a failure without understanding why the diff occurred.
 

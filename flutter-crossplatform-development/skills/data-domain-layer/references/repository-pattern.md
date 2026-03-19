@@ -79,12 +79,10 @@ class OrderMapper {
 
 ### Mapper Rules
 
-| Rule | Detail |
-|---|---|
-| One mapper per entity type | `UserProfileMapper`, `OrderMapper`, etc. |
-| `const` constructor | Mark mappers `const` when they have no mutable state |
-| No business logic | Mappers translate structure only — validation stays in the entity |
-| No network/DB calls | Mappers are pure functions; they never perform I/O |
+- One mapper per entity type — `UserProfileMapper`, `OrderMapper`, etc.
+- `const` constructor — mark mappers `const` when they have no mutable state
+- No business logic — mappers translate structure only; validation stays in the entity
+- No network/DB calls — mappers are pure functions; they never perform I/O
 
 ---
 
@@ -294,12 +292,10 @@ Exception _mapException(dynamic error) {
 
 ### Rules
 
-| Rule | Detail |
-|---|---|
-| Catch at boundary | Only the repository implementation catches infrastructure exceptions |
-| Rethrow as domain | Always rethrow as a `DomainException` subclass — never rethrow raw |
-| BLoC handles domain | BLoC `on<>` handlers catch `DomainException`; they never import `DioException` |
-| `DioException` in BLoC | This is an anti-pattern — fix it by mapping in the repository |
+- Catch at boundary — only the repository implementation catches infrastructure exceptions
+- Rethrow as domain — always rethrow as a `DomainException` subclass; never rethrow raw
+- BLoC handles domain — BLoC `on<>` handlers catch `DomainException`; they never import `DioException`
+- `DioException` in BLoC — this is an anti-pattern; fix it by mapping in the repository
 
 ---
 
@@ -345,17 +341,15 @@ For a full `CompositionRoot` and scoped DI patterns see
 
 ## 11. Best Practices Checklist
 
-| | Rule |
-|---|---|
-| ✅ | Keep the domain layer pure — no external package imports other than `equatable` and `meta` |
-| ✅ | Use interfaces for repositories (Dependency Inversion) |
-| ✅ | Map DTOs to entities at the repository boundary — never before, never after |
-| ✅ | Handle errors at the data layer; expose only `DomainException` subtypes |
-| ✅ | Implement caching strategy inside the repository implementation |
-| ✅ | Mark repository implementations and mappers `@immutable` |
-| ✅ | Use mapper classes for complex or bidirectional conversions |
-| ✅ | Prefer composition over inheritance for mappers |
-| ❌ | Never expose DTOs to the BLoC layer (Global Rule 3) |
-| ❌ | Never import domain entities inside data source classes |
-| ❌ | Never put business logic in repositories, DTOs, or mappers |
-| ❌ | Never catch `DioException` in a BLoC event handler |
+✅ Keep the domain layer pure — no external package imports other than `equatable` and `meta`
+✅ Use interfaces for repositories (Dependency Inversion)
+✅ Map DTOs to entities at the repository boundary — never before, never after
+✅ Handle errors at the data layer; expose only `DomainException` subtypes
+✅ Implement caching strategy inside the repository implementation
+✅ Mark repository implementations and mappers `@immutable`
+✅ Use mapper classes for complex or bidirectional conversions
+✅ Prefer composition over inheritance for mappers
+❌ Never expose DTOs to the BLoC layer (Global Rule 3)
+❌ Never import domain entities inside data source classes
+❌ Never put business logic in repositories, DTOs, or mappers
+❌ Never catch `DioException` in a BLoC event handler

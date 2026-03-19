@@ -26,12 +26,10 @@ the UI via `AnimatedBuilder` (widget subtree) or directly into a `CustomPainter`
 
 ## Reference Files — Read Before Answering
 
-| Topic | Reference file | When to read |
-|---|---|---|
-| AnimationController, Tweens, implicit/explicit animations | `references/animation-controllers.md` | Setting up controllers, CurvedAnimation, staggered/Hero animations, Rive/Lottie |
-| CustomPainter, RepaintBoundary, canvas batching | `references/custom-painter.md` | Writing CustomPainter, canvas optimization, repaint isolation |
-| Shaders, RenderObject, custom Tickers | `references/shaders-render-objects.md` | Fragment shaders, LeafRenderObjectWidget, markNeedsPaint, custom Tickers |
-| Full performance checklist | `references/performance-checklist.md` | Code review, diagnosing jank, pre-merge checklist |
+- `references/animation-controllers.md` — AnimationController, Tweens, CurvedAnimation, staggered/Hero animations, Rive/Lottie
+- `references/custom-painter.md` — CustomPainter, RepaintBoundary, canvas batching and optimization
+- `references/shaders-render-objects.md` — fragment shaders, LeafRenderObjectWidget, markNeedsPaint, custom Tickers
+- `references/performance-checklist.md` — full checklist for code review, diagnosing jank, pre-merge verification
 
 **Rule**: Always read the relevant reference(s) in full before writing or reviewing animation code.
 Multiple references may apply — e.g. a shader-driven CustomPainter needs both
@@ -39,18 +37,16 @@ Multiple references may apply — e.g. a shader-driven CustomPainter needs both
 
 ## Quick Reference
 
-| Concern | Rule |
-|---|---|
-| FPS / refresh rate | Let Flutter manage it — never use `Timer.periodic` for animation |
-| Rebuilds | `AnimatedBuilder` over `setState` for animation listeners |
-| Repaint isolation | Wrap animated content in `RepaintBoundary` |
-| Widget structure | Never change tree structure during an active animation |
-| CustomPainter | Pass `AnimationController` to `repaint:` param — never `setState` |
-| Paint objects | Define `Paint` once as a field — never instantiate inside `paint()` |
-| Draw calls | Batch with `drawPoints` / `drawAtlas` |
-| Shaders | Fragment shaders for complex per-pixel GPU effects |
-| Tickers | Custom `Ticker` for precise frame control with lower overhead |
-| RenderObject updates | `markNeedsPaint()` — never `setState` |
+- FPS / refresh rate — never `Timer.periodic`; let Flutter's `AnimationController` + vsync manage it
+- Rebuilds — `AnimatedBuilder` over `setState` for animation listeners
+- Repaint isolation — wrap animated content in `RepaintBoundary`
+- Widget structure — never change tree structure during an active animation
+- CustomPainter — pass `AnimationController` to `repaint:` param; never `setState`
+- Paint objects — define `Paint` as a class field; never instantiate inside `paint()`
+- Draw calls — batch with `drawPoints` / `drawAtlas`
+- Shaders — fragment shaders for complex per-pixel GPU effects
+- Tickers — custom `Ticker` for precise frame control with lower overhead
+- RenderObject updates — `markNeedsPaint()`; never `setState`
 
 ## Common Pitfalls
 

@@ -24,12 +24,10 @@ description: >
   /------------------\
 ```
 
-| Layer       | Scope                          | Speed    | Confidence |
-|-------------|--------------------------------|----------|------------|
-| Unit        | BLoCs, mappers, domain logic   | Fast     | Low–Med    |
-| Widget      | Individual widgets, state UI   | Medium   | Medium     |
-| Golden      | Visual snapshots, pixel diff   | Medium   | Medium     |
-| Integration | Full app, native interactions  | Slow     | High       |
+- Unit — BLoCs, mappers, domain logic — fast, low–medium confidence
+- Widget — individual widgets, state UI — medium speed, medium confidence
+- Golden — visual snapshots, pixel diff — medium speed, medium confidence
+- Integration — full app, native interactions — slow, high confidence
 
 Write the most tests at the bottom (Unit) and the fewest at the top (Integration).
 
@@ -39,23 +37,19 @@ Write the most tests at the bottom (Unit) and the fewest at the top (Integration
 
 Before generating any test code, read the relevant reference file(s).
 
-| Topic                                | Reference File                                          |
-|--------------------------------------|---------------------------------------------------------|
-| BLoC/Cubit unit tests, mocks, mappers | `references/unit-testing.md`                           |
-| Widget rendering, BlocBuilder, finders | `references/widget-testing.md`                        |
-| Visual snapshots, CI golden workflow  | `references/golden-file-testing.md`                    |
-| End-to-end, Patrol, device farms      | `references/integration-testing.md`                    |
+- `references/unit-testing.md` — BLoC unit tests, mocks, mappers
+- `references/widget-testing.md` — widget rendering, BlocBuilder, finders
+- `references/golden-file-testing.md` — visual snapshots, CI golden workflow
+- `references/integration-testing.md` — end-to-end, Patrol, device farms
 
 ---
 
 ## Quick Reference
 
-| Test Type   | What to Test                                   | Tools                          | When                                      |
-|-------------|------------------------------------------------|--------------------------------|-------------------------------------------|
-| Unit        | BLoC events→states, mappers, domain exceptions | `bloc_test`, `mockito`         | Every BLoC, mapper, repository, use case  |
-| Widget      | Widget tree per sealed state branch            | `testWidgets`, `BlocProvider`  | Every screen, every non-trivial widget    |
-| Golden      | Pixel-accurate snapshot per theme/variant      | `matchesGoldenFile`            | Design system components, screen layouts  |
-| Integration | User flows, native dialogs, permissions        | `patrol`, `integration_test`   | Critical user journeys, release gates     |
+- **Unit** — BLoC events→states, mappers, domain exceptions — `bloc_test`, `mockito` — every BLoC, mapper, repository
+- **Widget** — widget tree per sealed state branch — `testWidgets`, `BlocProvider` — every screen, non-trivial widget
+- **Golden** — pixel-accurate snapshot per theme/variant — `matchesGoldenFile` — design system components, screen layouts
+- **Integration** — user flows, native dialogs, permissions — `patrol`, `integration_test` — critical journeys, release gates
 
 ---
 

@@ -100,13 +100,12 @@ final class _FeatureSubscribeEvent extends FeatureEvent {
 
 ## 3. Action-Oriented Naming Conventions
 
-| Correct (action verb) | Incorrect (past/noun form) |
-|---|---|
-| `FeatureLoadEvent` | `FeatureLoadedEvent` |
-| `FeatureRefreshEvent` | `FeatureRefreshedEvent` |
-| `FeatureDeleteEvent` | `FeatureItemDeletedEvent` |
-| `FeatureSubmitEvent` | `FeatureFormSubmittedEvent` |
-| `FeatureFetchStatsEvent` | `FeatureStatsFetchEvent` |
+Correct (action verb) → Incorrect (past/noun form):
+- `FeatureLoadEvent` not `FeatureLoadedEvent`
+- `FeatureRefreshEvent` not `FeatureRefreshedEvent`
+- `FeatureDeleteEvent` not `FeatureItemDeletedEvent`
+- `FeatureSubmitEvent` not `FeatureFormSubmittedEvent`
+- `FeatureFetchStatsEvent` not `FeatureStatsFetchEvent`
 
 Events name the **action the user or system is requesting**, not the result that occurred.
 Results are expressed through state transitions, not through event names.

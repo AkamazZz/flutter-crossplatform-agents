@@ -9,15 +9,13 @@ The General Data Protection Regulation (GDPR) and similar frameworks (CCPA, LGPD
 
 ## GDPR Core Principles
 
-| Principle | What it means in practice |
-|---|---|
-| Lawful basis | Process data only with consent, contract necessity, legal obligation, vital interest, public task, or legitimate interest |
-| Purpose limitation | Collect data for specified, explicit purposes; do not reuse for incompatible purposes |
-| Data minimization | Collect only what is strictly necessary for the stated purpose |
-| Accuracy | Keep data up to date; allow users to correct it |
-| Storage limitation | Delete data when it is no longer needed for its purpose |
-| Integrity & confidentiality | Protect data with appropriate technical measures (encryption, access controls) |
-| Accountability | Demonstrate compliance — maintain records of processing activities |
+- Lawful basis — process data only with consent, contract necessity, legal obligation, vital interest, public task, or legitimate interest
+- Purpose limitation — collect data for specified, explicit purposes; do not reuse for incompatible purposes
+- Data minimization — collect only what is strictly necessary for the stated purpose
+- Accuracy — keep data up to date; allow users to correct it
+- Storage limitation — delete data when it is no longer needed for its purpose
+- Integrity & confidentiality — protect data with appropriate technical measures (encryption, access controls)
+- Accountability — demonstrate compliance; maintain records of processing activities
 
 ## Privacy-by-Design
 

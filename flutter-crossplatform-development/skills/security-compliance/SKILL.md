@@ -51,11 +51,9 @@ Flutter app security operates across four layers: **storage → network → app 
 
 ## Reference Documents
 
-| Document | Contents | When to Use |
-|---|---|---|
-| [secure-storage.md](references/secure-storage.md) | flutter_secure_storage setup, token lifecycle, iOS Keychain, Android KeyStore, decision guide | Storing credentials, tokens, or any sensitive user data |
-| [network-security.md](references/network-security.md) | Certificate pinning, HTTPS enforcement, API key management, request signing, platform security configs | Securing API communication and preventing interception |
-| [compliance-gdpr.md](references/compliance-gdpr.md) | GDPR principles, consent management, right to deletion, obfuscation, audit logging | Building privacy-compliant features or preparing for regulatory review |
+- [secure-storage.md](references/secure-storage.md) — flutter_secure_storage, token lifecycle, iOS Keychain, Android KeyStore; consult when storing credentials or sensitive user data
+- [network-security.md](references/network-security.md) — certificate pinning, HTTPS, API key management, request signing; consult when securing API communication
+- [compliance-gdpr.md](references/compliance-gdpr.md) — GDPR principles, consent, right to deletion, obfuscation, audit logging; consult for privacy-compliant features
 
 ## Quick Reference
 

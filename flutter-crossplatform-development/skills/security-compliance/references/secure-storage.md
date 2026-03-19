@@ -73,13 +73,11 @@ class SecureStorageService {
 
 The Keychain stores data in encrypted hardware-backed storage. Key accessibility options:
 
-| `KeychainAccessibility` | Accessible when |
-|---|---|
-| `unlocked` | Device is unlocked (default) |
-| `first_unlock` | After first unlock since boot; survives background |
-| `always` | Always, even when locked (avoid for sensitive data) |
-| `unlocked_this_device` | Unlocked + not transferred to new device |
-| `first_unlock_this_device` | After first unlock + not transferred |
+- `unlocked` — accessible when device is unlocked (default)
+- `first_unlock` — accessible after first unlock since boot; survives background
+- `always` — always accessible, even when locked; avoid for sensitive data
+- `unlocked_this_device` — unlocked + not transferred to new device
+- `first_unlock_this_device` — after first unlock + not transferred
 
 Recommendation: use `first_unlock` for auth tokens (allows background refresh) and `unlocked` for highly sensitive keys.
 
@@ -212,17 +210,15 @@ On iOS, `deleteAll()` removes Keychain entries with the app's service name. On A
 
 ## Decision Guide: SecureStorage vs SharedPreferences
 
-| Data type | Storage choice | Reason |
-|---|---|---|
-| Access token | `flutter_secure_storage` | Credential — must be encrypted |
-| Refresh token | `flutter_secure_storage` | Long-lived credential |
-| Encryption/signing keys | `flutter_secure_storage` | Key material |
-| User passwords (if cached) | `flutter_secure_storage` | Never store; use tokens instead |
-| Biometric-protected secrets | `flutter_secure_storage` | Hardware-backed |
-| User ID (non-secret) | `shared_preferences` | Not sensitive, fine unencrypted |
-| UI preferences (theme, locale) | `shared_preferences` | Not sensitive |
-| Feature flags | `shared_preferences` | Not sensitive |
-| Analytics opt-out | `shared_preferences` | Not sensitive |
-| Last sync timestamp | `shared_preferences` | Not sensitive |
+- Access token → `flutter_secure_storage` (credential, must be encrypted)
+- Refresh token → `flutter_secure_storage` (long-lived credential)
+- Encryption/signing keys → `flutter_secure_storage` (key material)
+- User passwords (if cached) → `flutter_secure_storage` (never store; use tokens instead)
+- Biometric-protected secrets → `flutter_secure_storage` (hardware-backed)
+- User ID (non-secret) → `shared_preferences` (not sensitive, fine unencrypted)
+- UI preferences (theme, locale) → `shared_preferences` (not sensitive)
+- Feature flags → `shared_preferences` (not sensitive)
+- Analytics opt-out → `shared_preferences` (not sensitive)
+- Last sync timestamp → `shared_preferences` (not sensitive)
 
 **Rule:** if the data could be used to authenticate, decrypt, or identify the user, it belongs in `flutter_secure_storage`. Everything else can go in `shared_preferences`.

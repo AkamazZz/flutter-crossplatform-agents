@@ -21,12 +21,10 @@ main ─────────────────────────
   └── release/1.2.0 ──────────────────────────── release candidate
 ```
 
-| Branch pattern | CI trigger | Artifact |
-|---|---|---|
-| `feature/*`, `fix/*` | PR to develop | Run tests only |
-| `develop` | Push | Build staging APK + IPA |
-| `release/*` | Push | Build prod AAB + IPA, upload to stores |
-| `main` | Push (merge) | Tag release, create GitHub Release |
+- `feature/*`, `fix/*` — PR to develop → run tests only
+- `develop` — push → build staging APK + IPA
+- `release/*` — push → build prod AAB + IPA, upload to stores
+- `main` — push (merge) → tag release, create GitHub Release
 
 ## GitHub Actions
 
@@ -236,18 +234,16 @@ jobs:
 
 ### Required GitHub Secrets
 
-| Secret | Description |
-|---|---|
-| `KEYSTORE_BASE64` | Base64-encoded Android keystore `.jks` file |
-| `KEYSTORE_PASSWORD` | Keystore password |
-| `KEY_ALIAS` | Key alias within the keystore |
-| `KEY_PASSWORD` | Key password |
-| `IOS_DIST_CERT_P12_BASE64` | Base64-encoded iOS distribution certificate `.p12` |
-| `IOS_DIST_CERT_PASSWORD` | Certificate password |
-| `IOS_PROVISIONING_PROFILE_BASE64` | Base64-encoded mobileprovision file |
-| `PLAY_SERVICE_ACCOUNT_JSON` | Google Play service account JSON |
-| `PROD_API_URL` | Production API base URL |
-| `CODECOV_TOKEN` | Codecov upload token |
+- `KEYSTORE_BASE64` — base64-encoded Android keystore `.jks` file
+- `KEYSTORE_PASSWORD` — keystore password
+- `KEY_ALIAS` — key alias within the keystore
+- `KEY_PASSWORD` — key password
+- `IOS_DIST_CERT_P12_BASE64` — base64-encoded iOS distribution certificate `.p12`
+- `IOS_DIST_CERT_PASSWORD` — certificate password
+- `IOS_PROVISIONING_PROFILE_BASE64` — base64-encoded mobileprovision file
+- `PLAY_SERVICE_ACCOUNT_JSON` — Google Play service account JSON
+- `PROD_API_URL` — production API base URL
+- `CODECOV_TOKEN` — Codecov upload token
 
 ## Codemagic
 
@@ -362,12 +358,10 @@ workflows:
 
 ## Caching Strategy
 
-| Cache target | Key strategy | Benefit |
-|---|---|---|
-| Flutter SDK | `flutter-version` string | Avoid re-downloading Flutter |
-| `~/.pub-cache` | Hash of `pubspec.lock` | Skip pub get on unchanged deps |
-| Gradle (`~/.gradle`) | Hash of `*.gradle` files | Speed up Android builds by ~2 min |
-| Xcode DerivedData | Hash of `ios/Podfile.lock` | Speed up iOS builds |
+- Flutter SDK — key: `flutter-version` string — avoid re-downloading Flutter
+- `~/.pub-cache` — key: hash of `pubspec.lock` — skip pub get on unchanged deps
+- Gradle (`~/.gradle`) — key: hash of `*.gradle` files — speed up Android builds by ~2 min
+- Xcode DerivedData — key: hash of `ios/Podfile.lock` — speed up iOS builds
 
 **Cache invalidation:** always include a `restore-keys` fallback so a partial cache hit still provides benefit when a single dependency changes.
 

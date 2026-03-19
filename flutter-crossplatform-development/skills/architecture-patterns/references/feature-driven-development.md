@@ -53,14 +53,12 @@ Why feature-first wins at scale:
 
 Each feature package is self-contained. It owns:
 
-| Artefact | Where |
-|---|---|
-| BLoC + events + states | `features/[name]/lib/src/bloc/` |
-| Screens | `features/[name]/lib/src/screens/` |
-| Feature-private widgets | `features/[name]/lib/src/widgets/` |
-| DI container class | `features/[name]/lib/src/di/[name]_dependencies.dart` |
-| Route definitions | `features/[name]/lib/src/routes/` |
-| Barrel export | `features/[name]/lib/[name]_feature.dart` |
+- BLoC + events + states → `features/[name]/lib/src/bloc/`
+- Screens → `features/[name]/lib/src/screens/`
+- Feature-private widgets → `features/[name]/lib/src/widgets/`
+- DI container class → `features/[name]/lib/src/di/[name]_dependencies.dart`
+- Route definitions → `features/[name]/lib/src/routes/`
+- Barrel export → `features/[name]/lib/[name]_feature.dart`
 
 Rules for isolation:
 - Feature A must **never** import widgets, BLoC, or screens from Feature B.
@@ -232,13 +230,11 @@ extension WeatherDependenciesX on BuildContext {
 
 Split when any of the following are true:
 
-| Signal | Action |
-|---|---|
-| Feature has 5+ screens covering distinct user journeys | Split by journey (e.g., `auth_login`, `auth_registration`) |
-| Feature has 3+ independent BLoCs with no shared state | Split into sub-features sharing a domain package |
-| Two teams need to work on the feature simultaneously | Split to eliminate merge conflicts |
-| Feature's `pubspec.yaml` has 10+ local path dependencies | Decompose — it is doing too much |
-| You need to reuse one sub-part of the feature elsewhere | Extract that sub-part as a separate feature or domain package |
+- Feature has 5+ screens covering distinct user journeys → split by journey (e.g., `auth_login`, `auth_registration`)
+- Feature has 3+ independent BLoCs with no shared state → split into sub-features sharing a domain package
+- Two teams need to work on the feature simultaneously → split to eliminate merge conflicts
+- Feature's `pubspec.yaml` has 10+ local path dependencies → decompose, it is doing too much
+- Need to reuse one sub-part of the feature elsewhere → extract that sub-part as a separate feature or domain package
 
 Do **not** split prematurely. Start with a single feature package and extract only when one of
 the signals above appears. Over-splitting creates coordination overhead without benefit.

@@ -33,26 +33,22 @@ Directory structure: see CLAUDE.md — Directory Structure Convention.
 
 ## Reference Files — Read Before Answering
 
-| Topic | Reference file | When to read |
-|---|---|---|
-| Entities, DTOs, repository interfaces | `references/entities-dtos.md` | Defining domain models, DTO classes, repository contracts |
-| Mappers, impl, error handling, DI | `references/repository-pattern.md` | Implementing repositories, mapper classes, exception hierarchy, DI setup |
-| Drift local database & secure storage | `references/drift-persistence.md` | Local persistence with Drift, SharedPreferences, flutter_secure_storage |
-| Dio, Retrofit, interceptors, offline-first | `references/api-integration.md` | HTTP clients, auth interceptors, retry logic, offline queuing |
+- `references/entities-dtos.md` — entities, DTOs, repository interfaces; consult when defining domain models or repository contracts
+- `references/repository-pattern.md` — mappers, repository implementations, error handling, DI; consult when implementing repositories
+- `references/drift-persistence.md` — Drift, SharedPreferences, flutter_secure_storage; consult for local persistence
+- `references/api-integration.md` — Dio, Retrofit, interceptors, retry, offline; consult for HTTP clients and API integration
 
 **Rule**: Always read the relevant reference(s) in full before writing code for that layer.
 
 ## Quick Reference
 
-| Concern | Rule |
-|---|---|
-| Entities | Pure Dart, `Equatable`, no JSON, no Flutter imports, `copyWith`, business validation allowed |
-| DTOs | `json_serializable` + `FieldRename.snake`, no business logic, never the same class as the entity |
-| Repository interface | `abstract interface class`, returns Entities/primitives, `@useResult` on data-returning methods |
-| Repository impl | `@immutable`, constructor-inject all sources and mappers, map at boundary, cache in impl |
-| Mappers | Use for bidirectional or complex mapping; inject sub-mappers via constructor |
-| Exceptions | `DomainException` hierarchy; catch `DioException` in impl and rethrow as domain exception |
-| BLoC exposure | **Never expose DTOs to BLoC** — always map to entities first |
+- **Entities** — pure Dart, `Equatable`, no JSON annotations, no Flutter imports, `copyWith`; business validation allowed
+- **DTOs** — `json_serializable` + `FieldRename.snake`; no business logic; never the same class as the entity
+- **Repository interface** — `abstract interface class`; returns entities/primitives; `@useResult` on data-returning methods
+- **Repository impl** — `@immutable`; constructor-inject all sources and mappers; map at boundary; cache in impl
+- **Mappers** — use for bidirectional or complex mapping; inject sub-mappers via constructor
+- **Exceptions** — `DomainException` hierarchy; catch `DioException` in impl, rethrow as domain exception
+- **BLoC exposure** — never expose DTOs to BLoC; always map to entities first
 
 ## Anti-Patterns
 

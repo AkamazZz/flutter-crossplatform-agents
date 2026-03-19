@@ -41,9 +41,7 @@ Implements the domain contracts. Knows about Flutter, third-party packages, and 
 
 ## Dependency Rule
 
-```
-Presentation  ──depends on──►  Domain  ◄──depends on──  Data
-```
+Presentation -> Domain <- Data
 
 - Domain has **no** imports pointing outward.
 - Presentation imports **only** domain interfaces and entities, never Data implementations.
@@ -101,29 +99,19 @@ packages/
 
 ## What Goes in Each Layer — Decision Guide
 
-| Artefact | Question | Answer |
-|---|---|---|
-| New model class | Does it represent a business concept? | Domain entity |
-| New model class | Is it a wire format (JSON/protobuf)? | Data DTO |
-| New class | Does it call the network or disk? | Data source |
-| New class | Does it coordinate data sources + return entities? | Data repository impl |
-| New class | Does it define the contract for the above? | Domain repository interface |
-| New class | Does it render UI or manage UI state? | Presentation |
-| New class | Is it a single business operation with no UI? | Domain use case |
+- New model class, represents a business concept → Domain entity
+- New model class, is a wire format (JSON/protobuf) → Data DTO
+- New class, calls the network or disk → Data source
+- New class, coordinates data sources + returns entities → Data repository impl
+- New class, defines the contract for the above → Domain repository interface
+- New class, renders UI or manages UI state → Presentation
+- New class, single business operation with no UI → Domain use case
 
 ## Cross-Layer Communication
 
 All cross-layer communication is mediated by domain interfaces. The Presentation layer never
 knows which concrete class satisfies a repository interface — that wiring happens in
 `CompositionRoot` (see `dependency-injection.md`).
-
-```
-LoginBloc                  AuthRepository (interface)   AuthRepositoryImpl
-  │                               │                            │
-  │──── repository.login() ──────►│                            │
-  │                               │◄──── implements ───────────│
-  │◄─── Result<User, AuthException>                            │
-```
 
 DTOs never cross this boundary. `AuthRepositoryImpl.login()` calls the data source, receives an
 `AuthResponseDto`, maps it to `User`, and returns `User`.

@@ -156,11 +156,9 @@ dependencies:
 
 Flutter Web supports two renderers:
 
-| Renderer | Build flag | Notes |
-|---|---|---|
-| `canvaskit` | `--web-renderer canvaskit` | Pixel-perfect, larger download (~1.5 MB WASM) |
-| `html` (skwasm) | `--web-renderer html` | Smaller, uses browser canvas; some fidelity loss |
-| `auto` (default) | — | `canvaskit` on desktop browsers, `html` on mobile |
+- `canvaskit` (`--web-renderer canvaskit`) — pixel-perfect, larger download (~1.5 MB WASM)
+- `html`/skwasm (`--web-renderer html`) — smaller, uses browser canvas; some fidelity loss
+- `auto` (default) — `canvaskit` on desktop browsers, `html` on mobile
 
 Select at build time: `flutter build web --web-renderer canvaskit`.
 
